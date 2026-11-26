@@ -34,6 +34,10 @@ const damageState = (s: ShipState) => {
   return k > 0.75 ? 0 : k > 0.5 ? 1 : k > 0.25 ? 2 : 3
 }
 
+// fill_rect (px, within the bar frame) from ui_sheet.json
+const PLAYER_FILL = { x: 30, y: 15, w: 196, h: 20 }
+const ENEMY_FILL = { x: 24, y: 12, w: 112, h: 15 }
+
 export class PixiRenderer implements Renderer {
   private app?: Application
   private disposed = false
@@ -187,13 +191,13 @@ export class PixiRenderer implements Renderer {
       const x = lerp(s.prevX, s.x, alpha), y = lerp(s.prevY, s.y, alpha), r = lerpAngle(s.prevRotation, s.rotation, alpha)
       this.shipPos.set(s.id, { x, y, r })
       v.hull.position.set(x, y)
-      v.hull.rotation = r
+      v.hull.rotation = r + Math.PI // ship art bow points +y; sim rotation 0 is up
       v.bar.position.set(x, y - 72) // not parented to the hull, so it never rotates
 
       const dmg = damageState(s)
       if (dmg !== v.dmg) {
         v.dmg = dmg
-        v.body.texture = getTexture(`ship_${DEFAULT_GAME_CONFIG.ships[s.kind].colorIndex * 4 + dmg + 1}`)
+        v.body.texture = getTexture(`ship_${dmg * 6 + DEFAULT_GAME_CONFIG.ships[s.kind].colorIndex + 1}`)
       }
       const burning = dmg >= 2
       v.fire.visible = burning
@@ -222,12 +226,15 @@ export class PixiRenderer implements Renderer {
     if (!tex) {
       const full = getTexture(name)
       const f = full.frame
-      tex = new Texture({ source: full.source, frame: new Rectangle(f.x, f.y, f.width * k, f.height) })
+      const r = player ? PLAYER_FILL : ENEMY_FILL
+      tex = new Texture({ source: full.source, frame: new Rectangle(f.x + r.x, f.y + r.y, r.w * k, r.h) })
       this.fillTextures.set(key, tex)
     }
     v.fill.texture = tex
     v.fill.visible = k > 0
-    v.fill.x = -v.frame.texture.width / 2
+    const r = player ? PLAYER_FILL : ENEMY_FILL
+    v.fill.x = r.x - v.frame.texture.width / 2
+    v.fill.y = r.y + r.h / 2 - v.frame.texture.height / 2
   }
 
   private syncProjectiles(list: readonly ProjectileState[], stepped: boolean, alpha: number) {
