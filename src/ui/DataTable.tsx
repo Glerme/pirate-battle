@@ -61,9 +61,9 @@ export function DataTable<T>({ caption, state, columns, rowKey, emptyText, onPag
         </div>
       )}
       <nav className="pager" aria-label={`${caption} pages`}>
-        <RoundButton icon="icon_turn_left" aria-label="Previous page" disabled={page.page <= 1} onClick={() => onPage(page.page - 1)} />
+        <RoundButton icon="icon_turn_left" aria-label="Previous page" disabled={isFetching || page.page <= 1} onClick={() => onPage(page.page - 1)} />
         <span aria-live="polite">Page {page.page} of {Math.max(page.totalPages, 1)}</span>
-        <RoundButton icon="icon_turn_right" aria-label="Next page" disabled={page.page >= page.totalPages} onClick={() => onPage(page.page + 1)} />
+        <RoundButton icon="icon_turn_right" aria-label="Next page" disabled={isFetching || page.page >= page.totalPages} onClick={() => onPage(page.page + 1)} />
         <span role="status" className={`refresh ${isFetching ? 'on' : ''}`}>{isFetching ? 'Updating…' : ''}</span>
       </nav>
     </div>
