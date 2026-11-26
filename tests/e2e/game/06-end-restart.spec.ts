@@ -1,6 +1,6 @@
 import { DEFAULT_GAME_CONFIG } from '../../../src/game/config'
 import { expect, test } from '../fixtures'
-import { advance, getState, startMatch } from './helpers'
+import { getState, startMatch } from './helpers'
 
 test.describe('06 - Match end (time up & destroyed), frozen simulation, and clean restart via Play Again', () => {
   test('ends match when time runs out, freezes simulation, and restarts cleanly via Play Again', async ({ page }) => {

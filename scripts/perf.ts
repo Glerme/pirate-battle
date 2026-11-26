@@ -11,6 +11,7 @@ import { spawn, execSync } from 'node:child_process'
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import { chromium, type Page } from '@playwright/test'
+import type {} from '../src/game/testing'
 
 const PORT = 4175
 // PERF_SMOKE=<base url> (e.g. http://localhost:4173): short validation run against an already-running server; writes no report.
@@ -27,7 +28,6 @@ declare global {
     __frames?: number[]
     __rec?: boolean
     __PIXI_APP__?: { stage: unknown; renderer: { texture?: { managedTextures?: unknown[] } } }
-    __pirate?: { getState(): { status: string; simTimeMs: number; ships: { kind: string; alive: boolean; x: number; y: number; rotation: number }[]; projectiles: unknown[] } | null }
   }
 }
 

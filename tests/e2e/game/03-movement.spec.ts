@@ -97,7 +97,7 @@ test.describe('03 - Player movement, rotation, arena bounds and island collision
 
     await page.keyboard.down('w')
     const checkResult = await page.evaluate(
-      ({ stepMs, island, r }) => {
+      ({ stepMs, island }) => {
         const pirate = window.__pirate!
         pirate.advance(stepMs)
         let minDistance = Infinity
@@ -111,7 +111,7 @@ test.describe('03 - Player movement, rotation, arena bounds and island collision
         }
         return { minDistance, finalPlayer: pirate.getState()!.ships[0]! }
       },
-      { stepMs: STEP_MS, island: leftIsland, r: radius },
+      { stepMs: STEP_MS, island: leftIsland },
     )
     await page.keyboard.up('w')
 
