@@ -1,5 +1,7 @@
 # Pirate Battle
 
+> 🇧🇷 [Versão em português](README.pt-BR.md)
+
 Top-down pirate naval combat in React + Pixi.js. The challenge statement is in [docs/CHALLENGE.md](docs/CHALLENGE.md), the implementation plan in [docs/PLAN.md](docs/PLAN.md).
 Design notes: [ARCHITECTURE.md](ARCHITECTURE.md). Asset origin: [ASSETS_LICENSE.md](ASSETS_LICENSE.md). Performance: [docs/perf/report.md](docs/perf/report.md).
 
@@ -80,6 +82,8 @@ Requests to `/api` are served by MSW. Pick a scenario with `?scenario=<id>` (e.g
 | `unavailable-then-recover` | The first match registration fails (503), the next attempt succeeds: finish a match (Pending), reload `/result` or press Retry → Saved. |
 
 API failures never block Play, Options or combat; errors only appear inside the affected panel or the registration status.
+
+While Ranking or Match History is refreshing, the page buttons stay disabled until the response arrives.
 
 ## Testing
 
