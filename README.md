@@ -22,9 +22,9 @@ pnpm dev          # http://localhost:5173
 | `pnpm test:e2e` | Playwright (desktop 1280×720 + Pixel 7 landscape); builds and previews first |
 | `pnpm test:sim` / `pnpm test:mocks` | Node self-checks for the simulation / the mock API |
 | `pnpm perf` | Performance run on the preview build → `docs/perf/report.{md,json}` |
+| `pnpm atlas` | Regenerates the Pixi atlases in `public/assets/` from `assets/` |
 
 Playwright output: the HTML report goes to `playwright-report/` and failure traces/screenshots to `test-results/` (both git-ignored). Open the report with `pnpm exec playwright show-report`; open a trace with `pnpm exec playwright show-trace test-results/<test-dir>/trace.zip`.
-| `pnpm atlas` | Regenerates the Pixi atlases in `public/assets/` from `assets/` |
 
 ### Environment variables
 
