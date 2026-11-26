@@ -1,6 +1,6 @@
 # Assets
 
-All art and audio in `assets/` and `public/assets/` come from the **asset pack supplied with the challenge** (`assets/`: ships, ship parts, effects, tiles, UI sprites/atlases, 22 WAV sound effects/loops, reference mockups, logo). No assets were taken from other sources and no third-party fonts are bundled. The pack carries no license file; its terms are those of the challenge provider (Jungle Gaming) and the sprites follow a Kenney-style pirate pack aesthetic. Check the provider's terms before any use beyond this challenge.
+All art and audio in `assets/` and `public/assets/` come from the **asset pack supplied with the challenge** (`assets/`: ships, ship parts, effects, tiles, UI sprites/atlases, 22 WAV sound effects/loops, reference mockups, logo). No assets were taken from other sources and no third-party fonts are bundled. The pack carries no license file, so its license terms are unknown; only its origin (the challenge repository) is known. Check with the challenge provider before any use beyond this challenge.
 
 ## Conversions done (`pnpm atlas`, `scripts/convert-atlas.ts`)
 - `ships_miscellaneous_sheet.xml` / `_retina.xml` (Starling XML) → Pixi spritesheet JSON (frames addressed without `.png`, e.g. `ship_1`, `explosion_1`); `@2x` generated from the retina sheet.

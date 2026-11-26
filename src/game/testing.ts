@@ -42,6 +42,15 @@ if (inspect) {
   }
 }
 
+/**
+ * MEASUREMENT-ONLY knob (`?inspect=1&perf=1`, used by scripts/perf.ts): the player gets huge HP so the input bot survives one
+ * full 180 s match. Without both query params this is the identity, so normal play is never affected.
+ */
+export const perfConfig = <C extends { ships: { player: { maxHp: number } } }>(config: C): C =>
+  inspect && params?.get('perf') === '1'
+    ? { ...config, ships: { ...config.ships, player: { ...config.ships.player, maxHp: 1_000_000 } } }
+    : config
+
 export const resolveSeed = (seed: number): number => manualClock ? testSeed ?? seed : seed
 
 export function bindTesting(active: TestSession): () => void {

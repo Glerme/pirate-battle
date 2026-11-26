@@ -1,7 +1,7 @@
 import { HudStore } from './hudStore'
 import { GameInput } from './input'
 import { MAX_FRAME_MS, Simulation } from './sim'
-import { bindTesting, manualClock, resolveSeed } from './testing'
+import { bindTesting, manualClock, perfConfig, resolveSeed } from './testing'
 import type {
   CreateGameSession, CreateGameSessionOptions, GameSessionApi, HudSnapshot, MatchResult, MatchStatus, PauseReason,
 } from './types'
@@ -9,6 +9,7 @@ import type {
 class GameSession implements GameSessionApi {
   readonly input = new GameInput(() => this.pause('manual'))
   readonly hud: HudStore
+  private readonly config = perfConfig(this.options.config)
   private readonly sim: Simulation
   private readonly endListeners = new Set<(result: MatchResult) => void>()
   private status: MatchStatus = 'loading'
@@ -19,7 +20,7 @@ class GameSession implements GameSessionApi {
   private unbindTesting?: () => void
 
   constructor(private readonly options: CreateGameSessionOptions) {
-    this.sim = new Simulation(options.config, resolveSeed(options.seed))
+    this.sim = new Simulation(this.config, resolveSeed(options.seed))
     this.hud = new HudStore(this.readHud())
   }
 
@@ -83,7 +84,7 @@ class GameSession implements GameSessionApi {
       status: this.status,
       score: this.sim.score,
       hp: Math.ceil(this.sim.hp),
-      maxHp: Math.ceil(this.options.config.ships.player.maxHp),
+      maxHp: Math.ceil(this.config.ships.player.maxHp),
       remainingSec: this.sim.remainingSec,
       pauseReason: this.pauseReason,
     }

@@ -1,8 +1,9 @@
 /// <reference lib="dom" />
 /**
  * Performance run on the production preview build (`pnpm perf`; builds first if dist/ is missing).
- *  1. Real-time play with an input bot until 180 s of simulated play accumulate (matches are restarted on death).
- *     Collects avg FPS, p95 frame time (rAF deltas) and live entity counts.
+ *  1. One real-time 180 s match played by an input bot. The URL carries `perf=1`, a measurement-only knob that gives the player
+ *     huge HP (see perfConfig in src/game/testing.ts) so the bot survives the whole match; normal play is unaffected.
+ *     Collects avg FPS, p95 frame time (rAF deltas, only while the match is running) and entity counts over time.
  *  2. 5 start → play → exit cycles with forced GC: JSHeapUsedSize, event listeners, Pixi display objects/textures.
  * Writes docs/perf/report.md and docs/perf/report.json.
  */
@@ -12,23 +13,26 @@ import os from 'node:os'
 import { chromium, type Page } from '@playwright/test'
 
 const PORT = 4175
-const BASE = `http://localhost:${PORT}`
-const TARGET_PLAY_MS = 180_000
-const CYCLES = 5
-const CYCLE_PLAY_MS = 8_000
+// PERF_SMOKE=<base url> (e.g. http://localhost:4173): short validation run against an already-running server; writes no report.
+const SMOKE = process.env.PERF_SMOKE
+const BASE = SMOKE ?? `http://localhost:${PORT}`
+const TARGET_PLAY_MS = SMOKE ? 15_000 : 180_000
+const CYCLES = SMOKE ? 2 : 5
+const CYCLE_PLAY_MS = SMOKE ? 2_000 : 8_000
 const OPTIONS = { sessionTimeSec: 180, spawnIntervalSec: 2, captainName: 'PerfBot' }
 const VIEWPORT = { width: 1280, height: 720 }
 
 declare global {
   interface Window {
     __frames?: number[]
+    __rec?: boolean
     __PIXI_APP__?: { stage: unknown; renderer: { texture?: { managedTextures?: unknown[] } } }
     __pirate?: { getState(): { status: string; simTimeMs: number; ships: { kind: string; alive: boolean; x: number; y: number; rotation: number }[]; projectiles: unknown[] } | null }
   }
 }
 
-if (!existsSync('dist/index.html')) execSync('pnpm build', { stdio: 'inherit' })
-const server = spawn('pnpm', ['preview', '--port', String(PORT), '--strictPort'], { stdio: 'ignore' })
+if (!SMOKE && !existsSync('dist/index.html')) execSync('pnpm build', { stdio: 'inherit' })
+const server = SMOKE ? undefined : spawn('pnpm', ['preview', '--port', String(PORT), '--strictPort'], { stdio: 'ignore' })
 for (let i = 0; ; i++) {
   try { if ((await fetch(BASE)).ok) break } catch { /* not up yet */ }
   if (i > 60) throw new Error('preview server did not start')
@@ -45,8 +49,9 @@ await context.addInitScript((opts) => {
   const raf = window.requestAnimationFrame.bind(window)
   let last = 0
   window.requestAnimationFrame = (cb) => raf((t) => {
-    if (last) window.__frames!.push(t - last)
-    last = t
+    // Sample only while __rec is on; resetting `last` otherwise keeps menu/result transition gaps out. t === last: second rAF callback of the same frame.
+    if (!window.__rec) last = 0
+    else if (t !== last) { if (last) window.__frames!.push(t - last); last = t }
     cb(t)
   })
 }, OPTIONS)
@@ -93,15 +98,28 @@ async function botStep(): Promise<{ status: string; ships: number; projectiles: 
 }
 
 async function startPlay(reload = true) {
-  if (reload) await page.goto(`${BASE}/?inspect=1`)
+  await page.evaluate(() => { window.__rec = false }).catch(() => undefined)
+  if (reload) await page.goto(`${BASE}/?inspect=1&perf=1`)
   await page.getByRole('button', { name: 'Play', exact: true }).click()
   await page.waitForFunction(() => window.__pirate?.getState()?.status === 'running', null, { timeout: 30_000 })
+  await page.evaluate(() => { window.__rec = true })
 }
+
+// Evaluated as a string: tsx would inject its `__name` helper into a function body, which does not exist in the page.
+const PIXI_COUNTS = `(() => {
+  const app = window.__PIXI_APP__
+  if (!app) return { displayObjects: 0, textures: 0 }
+  let n = 0
+  const walk = (c) => { n++; (c.children || []).forEach(walk) }
+  walk(app.stage)
+  return { displayObjects: n, textures: app.renderer.texture?.managedTextures?.length ?? -1 }
+})()`
+const pixiCounts = (p: Page) => p.evaluate<{ displayObjects: number; textures: number }>(PIXI_COUNTS)
 
 // ---- 1. long match ----
 let playedMs = 0
 let matches = 0
-const samples: { tSec: number; ships: number; projectiles: number }[] = []
+const samples: { tSec: number; ships: number; projectiles: number; displayObjects: number }[] = []
 await startPlay()
 await page.evaluate(() => { window.__frames!.length = 0 })
 while (playedMs < TARGET_PLAY_MS) {
@@ -114,10 +132,11 @@ while (playedMs < TARGET_PLAY_MS) {
     lastSim = s.simTimeMs
     if (Date.now() - sampleAt >= 1000) {
       sampleAt = Date.now()
-      samples.push({ tSec: Math.round((playedMs + lastSim) / 1000), ships: s.ships - 1, projectiles: s.projectiles })
+      samples.push({ tSec: Math.round((playedMs + lastSim) / 1000), ships: s.ships - 1, projectiles: s.projectiles, displayObjects: (await pixiCounts(page)).displayObjects })
     }
     await page.waitForTimeout(100 - Math.min(90, (Date.now() - t0) % 100))
   }
+  await page.evaluate(() => { window.__rec = false })
   playedMs += lastSim
   matches++
   if (playedMs >= TARGET_PLAY_MS) break
@@ -145,6 +164,8 @@ const long = {
   enemiesMax: Math.max(0, ...samples.map((s) => s.ships)),
   projectilesAvg: +(samples.reduce((a, s) => a + s.projectiles, 0) / Math.max(1, samples.length)).toFixed(1),
   projectilesMax: Math.max(0, ...samples.map((s) => s.projectiles)),
+  displayObjectsAvg: Math.round(samples.reduce((a, s) => a + s.displayObjects, 0) / Math.max(1, samples.length)),
+  displayObjectsMax: Math.max(0, ...samples.map((s) => s.displayObjects)),
 }
 
 // ---- 2. start-play-exit cycles ----
@@ -154,16 +175,6 @@ async function metrics(): Promise<Record<string, number>> {
   const { metrics } = await cdp.send('Performance.getMetrics')
   return Object.fromEntries(metrics.map((m) => [m.name, m.value]))
 }
-// Evaluated as a string: tsx would inject its `__name` helper into a function body, which does not exist in the page.
-const PIXI_COUNTS = `(() => {
-  const app = window.__PIXI_APP__
-  if (!app) return { displayObjects: 0, textures: 0 }
-  let n = 0
-  const walk = (c) => { n++; (c.children || []).forEach(walk) }
-  walk(app.stage)
-  return { displayObjects: n, textures: app.renderer.texture?.managedTextures?.length ?? -1 }
-})()`
-const pixiCounts = (p: Page) => p.evaluate<{ displayObjects: number; textures: number }>(PIXI_COUNTS)
 const cycles: { cycle: number; heapMB: number; listeners: number; nodes: number; midPlay: { displayObjects: number; textures: number }; afterExit: { displayObjects: number; textures: number; canvases: number } }[] = []
 for (let i = 1; i <= CYCLES; i++) {
   await startPlay(i === 1) // later cycles stay in the SPA so leaks accumulate
@@ -189,7 +200,12 @@ const hardware = { cpu: os.cpus()[0]?.model ?? 'unknown', cores: os.cpus().lengt
 const report = {
   generatedAt: new Date().toISOString(), hardware, browser: `Chromium ${browser.version()} (headless, Playwright)`, resolution: { ...VIEWPORT, devicePixelRatio: 1 },
   matchConfig: { ...OPTIONS, note: 'spawn interval 2 s (stress; default is 4 s), other values from DEFAULT_GAME_CONFIG' },
-  longRun: long, cycles, consoleErrors: errors,
+  longRun: long, entityCountsOverTime: samples, cycles, consoleErrors: errors,
+}
+if (SMOKE) {
+  console.log(JSON.stringify({ long, cycles, errors }, null, 1))
+  await browser.close()
+  process.exit(0)
 }
 mkdirSync('docs/perf', { recursive: true })
 writeFileSync('docs/perf/report.json', JSON.stringify(report, null, 2) + '\n')
@@ -204,9 +220,10 @@ Generated by \`pnpm perf\` (\`scripts/perf.ts\`) on ${report.generatedAt}. Raw d
 - WebGL renderer: ${gpu}
 - Viewport: ${VIEWPORT.width}×${VIEWPORT.height} @ DPR 1 (production \`vite preview\` build, MSW mocks on)
 - Match config: session ${OPTIONS.sessionTimeSec} s, spawn interval ${OPTIONS.spawnIntervalSec} s (stress; default is 4 s), maxAlive 8, rest = \`DEFAULT_GAME_CONFIG\`
+- Measurement-only knob: \`?inspect=1&perf=1\` gives the player 1,000,000 HP so the bot survives the full match (needs both params; never active in normal play). Enemies still fire and spawn normally.
 - Input bot: aims at the nearest enemy, fires the front gun when aligned and a broadside when abeam (sampled every 100 ms)
 
-## Long run (${long.playedSec} s of simulated play over ${long.matches} match${long.matches > 1 ? 'es' : ''}; the bot restarts after dying)
+## Long run (${long.playedSec} s of simulated play over ${long.matches} match${long.matches > 1 ? 'es' : ''}; frames sampled only while the match is running)
 | Metric | Value |
 |---|---|
 | Frames measured | ${long.frames} |
@@ -214,6 +231,9 @@ Generated by \`pnpm perf\` (\`scripts/perf.ts\`) on ${report.generatedAt}. Raw d
 | Frame time avg / p50 / p95 / p99 / max (ms) | ${long.avgFrameMs} / ${long.p50FrameMs} / ${long.p95FrameMs} / ${long.p99FrameMs} / ${long.maxFrameMs} |
 | Live enemies avg / max | ${long.enemiesAvg} / ${long.enemiesMax} |
 | Live projectiles avg / max | ${long.projectilesAvg} / ${long.projectilesMax} |
+| Pixi display objects (ships, projectiles, effects, map, HUD layers) avg / max | ${long.displayObjectsAvg} / ${long.displayObjectsMax} |
+
+Entity counts over time (every ~1 s: seconds, enemies, projectiles, display objects) are in \`report.json\` → \`entityCountsOverTime\`.
 
 ## Start → play → exit cycles (${CYCLES}×, ${CYCLE_PLAY_MS / 1000} s of play each, GC forced twice before each reading)
 | Cycle | JS heap (MB) | Event listeners | DOM nodes | Pixi objects / textures mid-play | Pixi objects / textures / canvases after exit |
@@ -225,9 +245,9 @@ Heap drift cycle 1 → ${CYCLES}: ${heapDelta >= 0 ? '+' : ''}${heapDelta.toFixe
 ## Limitations
 - Headless Chromium with software WebGL (SwiftShader): FPS/frame times are CPU-rendered and not representative of a real GPU; relative trends (heap, object counts) are what matter.
 - Frame times are rAF deltas inside the page, so they include the bot's \`page.evaluate\` polling overhead.
-- The bot is not a player: entity counts depend on how long it survives. Single machine, single run; no DevTools trace is recorded.
+- The bot is not a player: entity counts depend on how well it kills enemies (with the HP knob it cannot die, so load may differ from a human match). Single machine, single run; no DevTools trace is recorded.
 - Pixi texture count is \`renderer.texture.managedTextures\` (GPU-uploaded textures); atlas textures stay cached between matches by design.
 `)
 console.log(JSON.stringify({ long, cycles, errors }, null, 1))
 await browser.close()
-server.kill()
+server?.kill()
