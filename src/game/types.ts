@@ -17,6 +17,10 @@ export interface ShipState {
   x: number
   y: number
   rotation: number
+  /** Pose at the previous fixed step, for render interpolation with `alpha`. */
+  prevX: number
+  prevY: number
+  prevRotation: number
   hp: number
   maxHp: number
   alive: boolean
@@ -27,6 +31,8 @@ export interface ProjectileState {
   x: number
   y: number
   rotation: number
+  prevX: number
+  prevY: number
   faction: Faction
 }
 
@@ -39,7 +45,7 @@ export type GameEvent =
   | { type: 'chaserRam'; shipId: number; x: number; y: number }
   | { type: 'splash'; x: number; y: number }
   | { type: 'spawn'; shipId: number; kind: EnemyKind }
-  | { type: 'matchEnded'; result: EndReason }
+  | { type: 'matchEnded'; reason: EndReason }
 
 export type MatchStatus = 'loading' | 'running' | 'paused' | 'ended'
 export type EndReason = 'time_up' | 'destroyed'
@@ -96,7 +102,7 @@ export interface InputSink {
 }
 
 export interface GameSessionApi {
-  /** Loads assets, then starts combat. Safe under React StrictMode (destroy() during start aborts cleanly). */
+  /** Starts combat. Assets are already loaded and the renderer initialized by GameCanvas before the session exists. */
   start(): Promise<void>
   pause(reason: PauseReason): void
   resume(): void
@@ -123,3 +129,36 @@ export interface AssetLoadProgress {
 }
 
 export type MatchConfig = DeepReadonly<GameConfig>
+
+/**
+ * Ownership (coordinator decision):
+ * - T1 `src/game/session.ts` exports `createGameSession: CreateGameSession`. The session owns the frame loop
+ *   (its own requestAnimationFrame, or manual stepping in test mode) and calls `renderer.render(world, alpha)`.
+ * - T2 Pixi Application is created with `autoStart: false`; `render()` draws once per call. T2 exports
+ *   `loadGameAssets(onProgress)` (src/game/assets), `createPixiRenderer(): Renderer` (src/game/render),
+ *   `audio: AudioControls` (src/game/audio) and the `GameCanvas` component (src/game/GameCanvas.tsx).
+ * - GameCanvas flow: loadGameAssets -> renderer.init(container) -> createGameSession -> start(); on error it
+ *   reports status 'error' with `retry`. Unmount destroys session then renderer (StrictMode safe).
+ */
+export interface CreateGameSessionOptions {
+  config: MatchConfig
+  seed: number
+  renderer: Renderer
+}
+export type CreateGameSession = (opts: CreateGameSessionOptions) => GameSessionApi
+
+export interface GameCanvasProps {
+  config: MatchConfig
+  seed: number
+  /** Loading progress / failure; `retry` is present when status === 'error'. */
+  onLoadState(state: AssetLoadProgress & { retry?: () => void }): void
+  /** Called with the live session once started, and with null on teardown. */
+  onSession(session: GameSessionApi | null): void
+}
+
+/** Sound mute toggle, persisted by T2's audio module; the HUD button (T3) uses it via useSyncExternalStore. */
+export interface AudioControls {
+  isMuted(): boolean
+  setMuted(muted: boolean): void
+  subscribe(cb: () => void): () => void
+}
