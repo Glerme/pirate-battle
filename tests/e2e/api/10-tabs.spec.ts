@@ -111,4 +111,26 @@ test.describe('10 - Ranking and Match History tabs', () => {
 
     await expect(page.getByText('You have not finished a match yet.')).toBeVisible()
   })
+
+  test('while a page is loading, only cached pages can be opened', async ({ page }) => {
+    await gotoApp(page, { scenario: 'slow', seed: 7 })
+    const prev = page.getByRole('button', { name: 'Previous page' })
+    const next = page.getByRole('button', { name: 'Next page' })
+    const table = page.locator('.datatable')
+
+    await expect(page.getByText('Page 1 of 4')).toBeVisible()
+    await next.click()
+    await expect(page.getByText('Page 2 of 4')).toBeVisible()
+    await expect(table).toHaveAttribute('aria-busy', 'false')
+
+    // Page 3 is slow (1.5 s): page 2 stays on screen, page 1 is cached, page 3 is not.
+    await next.click()
+    await expect(table).toHaveAttribute('aria-busy', 'true')
+    await expect(page.getByText('Page 2 of 4')).toBeVisible()
+    await expect(prev).toBeEnabled()
+    await expect(next).toBeDisabled()
+
+    await prev.click()
+    await expect(page.getByText('Page 1 of 4')).toBeVisible()
+  })
 })

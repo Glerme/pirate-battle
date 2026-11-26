@@ -1,8 +1,9 @@
 import { useId, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import type { ScenarioId } from '../api/contracts'
 import { usePendingMatchCount } from '../api/outbox'
-import { useHistoryQuery, useRankingQuery } from '../api/queries'
+import { queryKeys, useHistoryQuery, useRankingQuery } from '../api/queries'
 import { useNetworkLab } from '../mocks'
 import { loadOptions, getPlayerId } from '../settings/storage'
 import { Button } from '../ui/Button'
@@ -26,7 +27,8 @@ function RankingPanel() {
   const playerId = getPlayerId()
   const [cfg, setCfg] = useState({ sessionTimeSec: options.sessionTimeSec, spawnIntervalSec: options.spawnIntervalSec })
   const [page, setPage] = useState(1)
-  const state = toListState(useRankingQuery({ ...cfg, page }))
+  const qc = useQueryClient()
+  const state = toListState(useRankingQuery({ ...cfg, page }), (p) => qc.getQueryData(queryKeys.ranking({ ...cfg, page: p })) !== undefined)
   const sessionChoices = [...new Set([60, 90, 120, 150, 180, cfg.sessionTimeSec])].sort((a, b) => a - b)
   const change = (k: keyof typeof cfg, v: string) => {
     setCfg({ ...cfg, [k]: Number(v) })
@@ -69,7 +71,9 @@ function RankingPanel() {
 
 function HistoryPanel() {
   const [page, setPage] = useState(1)
-  const state = toListState(useHistoryQuery({ playerId: getPlayerId(), page }))
+  const qc = useQueryClient()
+  const playerId = getPlayerId()
+  const state = toListState(useHistoryQuery({ playerId, page }), (p) => qc.getQueryData(queryKeys.history({ playerId, page: p })) !== undefined)
   return (
     <DataTable
       caption="Match history"
