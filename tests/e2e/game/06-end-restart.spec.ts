@@ -4,6 +4,8 @@ import { getState, startMatch } from './helpers'
 
 test.describe('06 - Match end (time up & destroyed), frozen simulation, and clean restart via Play Again', () => {
   test('ends match when time runs out, freezes simulation, and restarts cleanly via Play Again', async ({ page }) => {
+    // 240 synchronous advance() calls render in software GL; slow under parallel load, so allow more time (not a weaker assertion).
+    test.setTimeout(90_000)
     await startMatch(page, { seed: 42, sessionTimeSec: 60, spawnIntervalSec: 15 })
 
     // Run a lightweight survival loop in 250ms chunks with spawnIntervalSec=15:

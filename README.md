@@ -26,6 +26,8 @@ pnpm dev          # http://localhost:5173
 
 Playwright output: the HTML report goes to `playwright-report/` and failure traces/screenshots to `test-results/` (both git-ignored). Open the report with `pnpm exec playwright show-report`; open a trace with `pnpm exec playwright show-trace test-results/<test-dir>/trace.zip`.
 
+A committed copy of the last full run (60 tests, desktop + mobile, all green) is in [docs/reports/playwright/](docs/reports/playwright/index.html).
+
 ### Environment variables
 
 | Variable | Default | Effect |

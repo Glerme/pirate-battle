@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T18:16:26.301Z",
+  "generatedAt": "2026-11-26T19:08:06.436Z",
   "hardware": {
     "cpu": "AMD Ryzen 5 5500",
     "cores": 12,
@@ -20,28 +20,1064 @@
     "note": "spawn interval 2 s (stress; default is 4 s), other values from DEFAULT_GAME_CONFIG"
   },
   "longRun": {
-    "matches": 7,
+    "matches": 2,
     "playedSec": 180,
-    "frames": 12268,
-    "avgFps": 65.9,
-    "avgFrameMs": 15.18,
-    "p50FrameMs": 16.5,
-    "p95FrameMs": 33.4,
-    "p99FrameMs": 50,
-    "maxFrameMs": 1049.8,
-    "enemiesAvg": 1.6,
-    "enemiesMax": 5,
-    "projectilesAvg": 1.1,
-    "projectilesMax": 5
+    "frames": 6123,
+    "avgFps": 34,
+    "avgFrameMs": 29.41,
+    "p50FrameMs": 33.3,
+    "p95FrameMs": 49.9,
+    "p99FrameMs": 66.6,
+    "maxFrameMs": 400,
+    "enemiesAvg": 2.4,
+    "enemiesMax": 8,
+    "projectilesAvg": 1.5,
+    "projectilesMax": 7,
+    "displayObjectsAvg": 647,
+    "displayObjectsMax": 675
   },
+  "entityCountsOverTime": [
+    {
+      "tSec": 0,
+      "ships": 0,
+      "projectiles": 0,
+      "displayObjects": 548
+    },
+    {
+      "tSec": 1,
+      "ships": 0,
+      "projectiles": 0,
+      "displayObjects": 548
+    },
+    {
+      "tSec": 2,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 554
+    },
+    {
+      "tSec": 3,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 554
+    },
+    {
+      "tSec": 4,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 579
+    },
+    {
+      "tSec": 5,
+      "ships": 1,
+      "projectiles": 2,
+      "displayObjects": 579
+    },
+    {
+      "tSec": 6,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 588
+    },
+    {
+      "tSec": 7,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 588
+    },
+    {
+      "tSec": 9,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 10,
+      "ships": 1,
+      "projectiles": 2,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 11,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 12,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 13,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 14,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 15,
+      "ships": 2,
+      "projectiles": 2,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 16,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 17,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 18,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 19,
+      "ships": 2,
+      "projectiles": 4,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 20,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 21,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 599
+    },
+    {
+      "tSec": 22,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 23,
+      "ships": 2,
+      "projectiles": 3,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 24,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 25,
+      "ships": 2,
+      "projectiles": 2,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 26,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 27,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 28,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 30,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 31,
+      "ships": 2,
+      "projectiles": 3,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 32,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 33,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 34,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 35,
+      "ships": 2,
+      "projectiles": 2,
+      "displayObjects": 605
+    },
+    {
+      "tSec": 36,
+      "ships": 2,
+      "projectiles": 5,
+      "displayObjects": 608
+    },
+    {
+      "tSec": 37,
+      "ships": 3,
+      "projectiles": 3,
+      "displayObjects": 620
+    },
+    {
+      "tSec": 38,
+      "ships": 3,
+      "projectiles": 5,
+      "displayObjects": 620
+    },
+    {
+      "tSec": 39,
+      "ships": 3,
+      "projectiles": 2,
+      "displayObjects": 632
+    },
+    {
+      "tSec": 40,
+      "ships": 4,
+      "projectiles": 2,
+      "displayObjects": 632
+    },
+    {
+      "tSec": 41,
+      "ships": 3,
+      "projectiles": 5,
+      "displayObjects": 632
+    },
+    {
+      "tSec": 42,
+      "ships": 3,
+      "projectiles": 2,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 43,
+      "ships": 3,
+      "projectiles": 1,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 44,
+      "ships": 3,
+      "projectiles": 1,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 45,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 46,
+      "ships": 3,
+      "projectiles": 0,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 47,
+      "ships": 3,
+      "projectiles": 1,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 49,
+      "ships": 3,
+      "projectiles": 2,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 50,
+      "ships": 1,
+      "projectiles": 2,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 51,
+      "ships": 2,
+      "projectiles": 2,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 52,
+      "ships": 2,
+      "projectiles": 4,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 53,
+      "ships": 3,
+      "projectiles": 3,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 54,
+      "ships": 3,
+      "projectiles": 5,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 55,
+      "ships": 4,
+      "projectiles": 3,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 56,
+      "ships": 4,
+      "projectiles": 1,
+      "displayObjects": 636
+    },
+    {
+      "tSec": 57,
+      "ships": 5,
+      "projectiles": 0,
+      "displayObjects": 642
+    },
+    {
+      "tSec": 58,
+      "ships": 5,
+      "projectiles": 2,
+      "displayObjects": 642
+    },
+    {
+      "tSec": 59,
+      "ships": 5,
+      "projectiles": 1,
+      "displayObjects": 642
+    },
+    {
+      "tSec": 60,
+      "ships": 6,
+      "projectiles": 1,
+      "displayObjects": 648
+    },
+    {
+      "tSec": 61,
+      "ships": 6,
+      "projectiles": 2,
+      "displayObjects": 648
+    },
+    {
+      "tSec": 62,
+      "ships": 7,
+      "projectiles": 1,
+      "displayObjects": 654
+    },
+    {
+      "tSec": 63,
+      "ships": 7,
+      "projectiles": 2,
+      "displayObjects": 654
+    },
+    {
+      "tSec": 64,
+      "ships": 8,
+      "projectiles": 1,
+      "displayObjects": 660
+    },
+    {
+      "tSec": 65,
+      "ships": 8,
+      "projectiles": 1,
+      "displayObjects": 660
+    },
+    {
+      "tSec": 66,
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 660
+    },
+    {
+      "tSec": 67,
+      "ships": 7,
+      "projectiles": 2,
+      "displayObjects": 660
+    },
+    {
+      "tSec": 68,
+      "ships": 7,
+      "projectiles": 4,
+      "displayObjects": 660
+    },
+    {
+      "tSec": 69,
+      "ships": 6,
+      "projectiles": 2,
+      "displayObjects": 660
+    },
+    {
+      "tSec": 70,
+      "ships": 6,
+      "projectiles": 7,
+      "displayObjects": 660
+    },
+    {
+      "tSec": 72,
+      "ships": 5,
+      "projectiles": 4,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 73,
+      "ships": 5,
+      "projectiles": 3,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 74,
+      "ships": 5,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 75,
+      "ships": 4,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 76,
+      "ships": 4,
+      "projectiles": 3,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 77,
+      "ships": 4,
+      "projectiles": 4,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 78,
+      "ships": 3,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 79,
+      "ships": 3,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 80,
+      "ships": 4,
+      "projectiles": 5,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 81,
+      "ships": 4,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 82,
+      "ships": 4,
+      "projectiles": 4,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 83,
+      "ships": 3,
+      "projectiles": 6,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 84,
+      "ships": 3,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 85,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 86,
+      "ships": 3,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 87,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 88,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 89,
+      "ships": 1,
+      "projectiles": 3,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 90,
+      "ships": 2,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 92,
+      "ships": 1,
+      "projectiles": 3,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 93,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 94,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 95,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 96,
+      "ships": 0,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 97,
+      "ships": 0,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 98,
+      "ships": 0,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 99,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 100,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 101,
+      "ships": 1,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 102,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 103,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 104,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 105,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 106,
+      "ships": 3,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 107,
+      "ships": 3,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 109,
+      "ships": 3,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 110,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 111,
+      "ships": 3,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 112,
+      "ships": 3,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 113,
+      "ships": 3,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 114,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 115,
+      "ships": 2,
+      "projectiles": 4,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 116,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 117,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 118,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 119,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 120,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 121,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 122,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 123,
+      "ships": 2,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 124,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 125,
+      "ships": 1,
+      "projectiles": 3,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 126,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 127,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 129,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 130,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 131,
+      "ships": 1,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 132,
+      "ships": 0,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 133,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 134,
+      "ships": 1,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 135,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 136,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 137,
+      "ships": 2,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 138,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 139,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 140,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 141,
+      "ships": 1,
+      "projectiles": 3,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 142,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 143,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 144,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 145,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 147,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 148,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 149,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 150,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 151,
+      "ships": 1,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 152,
+      "ships": 1,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 153,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 154,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 155,
+      "ships": 1,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 156,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 157,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 158,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 159,
+      "ships": 2,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 160,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 161,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 162,
+      "ships": 3,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 163,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 164,
+      "ships": 3,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 165,
+      "ships": 3,
+      "projectiles": 0,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 166,
+      "ships": 4,
+      "projectiles": 2,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 167,
+      "ships": 3,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 168,
+      "ships": 3,
+      "projectiles": 3,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 170,
+      "ships": 2,
+      "projectiles": 5,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 171,
+      "ships": 3,
+      "projectiles": 4,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 172,
+      "ships": 2,
+      "projectiles": 5,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 173,
+      "ships": 3,
+      "projectiles": 3,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 174,
+      "ships": 3,
+      "projectiles": 4,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 175,
+      "ships": 4,
+      "projectiles": 4,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 176,
+      "ships": 3,
+      "projectiles": 1,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 177,
+      "ships": 4,
+      "projectiles": 3,
+      "displayObjects": 668
+    },
+    {
+      "tSec": 178,
+      "ships": 4,
+      "projectiles": 4,
+      "displayObjects": 675
+    },
+    {
+      "tSec": 179,
+      "ships": 4,
+      "projectiles": 1,
+      "displayObjects": 675
+    },
+    {
+      "tSec": 180,
+      "ships": 0,
+      "projectiles": 0,
+      "displayObjects": 548
+    }
+  ],
   "cycles": [
     {
       "cycle": 1,
-      "heapMB": 7.91,
-      "listeners": 193,
-      "nodes": 391,
+      "heapMB": 7.36,
+      "listeners": 188,
+      "nodes": 325,
       "midPlay": {
-        "displayObjects": 560,
+        "displayObjects": 587,
         "textures": 7
       },
       "afterExit": {
@@ -52,11 +1088,11 @@
     },
     {
       "cycle": 2,
-      "heapMB": 8.11,
-      "listeners": 193,
-      "nodes": 391,
+      "heapMB": 7.65,
+      "listeners": 194,
+      "nodes": 326,
       "midPlay": {
-        "displayObjects": 565,
+        "displayObjects": 585,
         "textures": 7
       },
       "afterExit": {
@@ -67,11 +1103,11 @@
     },
     {
       "cycle": 3,
-      "heapMB": 8.24,
-      "listeners": 194,
-      "nodes": 391,
+      "heapMB": 7.89,
+      "listeners": 193,
+      "nodes": 326,
       "midPlay": {
-        "displayObjects": 572,
+        "displayObjects": 601,
         "textures": 7
       },
       "afterExit": {
@@ -82,11 +1118,11 @@
     },
     {
       "cycle": 4,
-      "heapMB": 8.35,
+      "heapMB": 8.09,
       "listeners": 193,
-      "nodes": 391,
+      "nodes": 326,
       "midPlay": {
-        "displayObjects": 561,
+        "displayObjects": 597,
         "textures": 7
       },
       "afterExit": {
@@ -97,11 +1133,11 @@
     },
     {
       "cycle": 5,
-      "heapMB": 8.39,
+      "heapMB": 8.31,
       "listeners": 193,
-      "nodes": 391,
+      "nodes": 326,
       "midPlay": {
-        "displayObjects": 561,
+        "displayObjects": 589,
         "textures": 7
       },
       "afterExit": {

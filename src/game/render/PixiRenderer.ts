@@ -152,13 +152,15 @@ export class PixiRenderer implements Renderer {
   private buildMap(map: MapData) {
     this.map = map
     this.tiles.removeChildren().forEach((c) => c.destroy())
-    map.tiles.forEach((n, i) => {
-      const name = `tile_${n}`
+    const add = (name: string, i: number) => {
       if (!hasTexture(name)) return
       const s = new Sprite(getTexture(name))
       s.position.set((i % map.cols) * map.tileSize, Math.floor(i / map.cols) * map.tileSize)
       this.tiles.addChild(s)
-    })
+    }
+    // Island tiles have transparent corners: put sea (tile_73) under every cell.
+    map.tiles.forEach((n, i) => { if (n !== 73) add('tile_73', i) })
+    map.tiles.forEach((n, i) => add(`tile_${n}`, i))
   }
 
   private newShipView(): ShipView {
