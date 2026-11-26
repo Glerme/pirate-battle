@@ -8,8 +8,6 @@ export interface ListState<T> {
   isFetching: boolean
   error?: ApiError
   retry(): void
-  /** True when that page is already in the query cache, so it can be shown without waiting for a request. */
-  isPageCached(page: number): boolean
 }
 
 export type RegistrationState = {

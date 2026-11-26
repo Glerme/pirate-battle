@@ -20,7 +20,7 @@ interface Props<T> {
 
 /** Loading / error / empty / data views plus pagination. Data arrives by props; no fetching here. */
 export function DataTable<T>({ caption, state, columns, rowKey, emptyText, onPage, highlight }: Props<T>) {
-  const { status, page, isFetching, error, retry, isPageCached } = state
+  const { status, page, isFetching, error, retry } = state
   if (!page) {
     if (status === 'error') {
       return (
@@ -32,8 +32,6 @@ export function DataTable<T>({ caption, state, columns, rowKey, emptyText, onPag
     }
     return <p role="status" className="state-box">Loading {caption.toLowerCase()}…</p>
   }
-  // While refreshing, only allow moving to pages the cache can show immediately.
-  const canOpen = (p: number) => p >= 1 && p <= page.totalPages && (!isFetching || isPageCached(p))
   return (
     <div className="datatable" aria-busy={isFetching}>
       {/* Stale data stays visible; a failed refetch is reported without hiding it. */}
@@ -63,9 +61,9 @@ export function DataTable<T>({ caption, state, columns, rowKey, emptyText, onPag
         </div>
       )}
       <nav className="pager" aria-label={`${caption} pages`}>
-        <RoundButton icon="icon_turn_left" aria-label="Previous page" disabled={!canOpen(page.page - 1)} onClick={() => onPage(page.page - 1)} />
+        <RoundButton icon="icon_turn_left" aria-label="Previous page" disabled={isFetching || page.page <= 1} onClick={() => onPage(page.page - 1)} />
         <span aria-live="polite">Page {page.page} of {Math.max(page.totalPages, 1)}</span>
-        <RoundButton icon="icon_turn_right" aria-label="Next page" disabled={!canOpen(page.page + 1)} onClick={() => onPage(page.page + 1)} />
+        <RoundButton icon="icon_turn_right" aria-label="Next page" disabled={isFetching || page.page >= page.totalPages} onClick={() => onPage(page.page + 1)} />
         <span role="status" className={`refresh ${isFetching ? 'on' : ''}`}>{isFetching ? 'Updating…' : ''}</span>
       </nav>
     </div>
