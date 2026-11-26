@@ -52,14 +52,21 @@ export type EndReason = 'time_up' | 'destroyed'
 export type PauseReason = 'manual' | 'blur' | 'hidden' | 'orientation'
 
 /** Static map: tile ids index tile_1..tile_96 of the tiles sheet; solid cells block ships. */
+/** A block of atlas tiles (`tile_N`, N = 1..96) drawn as one image at (x, y) logical px, scaled. */
+export interface MapStamp {
+  tiles: readonly (readonly number[])[]
+  x: number
+  y: number
+  scale: number
+}
+
+/** Static map: sea filled with `seaTile`, then stamps in order. Colliders live in the sim (`islandRects`). */
 export interface MapData {
-  cols: number
-  rows: number
+  width: number
+  height: number
   tileSize: number
-  /** Row-major, length cols*rows; tile number 1..96 (see public/assets tiles atlas frame `tile_N`). */
-  tiles: readonly number[]
-  /** Row-major, length cols*rows; true = island/solid (collider). */
-  solid: readonly boolean[]
+  seaTile: number
+  stamps: readonly MapStamp[]
 }
 
 /** Read-only view the renderer polls each frame. The sim owns and mutates the underlying state. */

@@ -50,6 +50,7 @@ export class PixiRenderer implements Renderer {
   private fxLayer = new Container()
   private barLayer = new Container()
   private map?: MapData
+  private mapTexture?: Texture
   private ships = new Map<number, ShipView>()
   private freeShips: ShipView[] = []
   private projs = new Map<number, ProjView>()
@@ -106,12 +107,6 @@ export class PixiRenderer implements Renderer {
     this.world.scale.set(s)
     this.base = { x: (width - ARENA_W * s) / 2, y: (height - ARENA_H * s) / 2 }
     this.world.position.set(this.base.x, this.base.y)
-    if (this.map) this.cacheTiles()
-  }
-
-  /** Bakes the static map into one texture; re-baked only on map/resize so the ~600 tile sprites cost nothing per frame. */
-  private cacheTiles() {
-    this.tiles.cacheAsTexture({ resolution: (this.app?.renderer.resolution ?? 1) * this.world.scale.x, antialias: false })
   }
 
   render(world: WorldSnapshot, alpha: number): void {
@@ -144,6 +139,8 @@ export class PixiRenderer implements Renderer {
     this.observer?.disconnect()
     this.fillTextures.forEach((t) => t.destroy(false))
     this.fillTextures.clear()
+    this.mapTexture?.destroy(true)
+    this.mapTexture = undefined
     this.ring?.destroy(true)
     this.puff?.destroy(true)
     sounds.stopAmbience()
@@ -155,19 +152,46 @@ export class PixiRenderer implements Renderer {
     this.activeFx = []; this.freeFx = []
   }
 
+  /**
+   * Bakes the static map into one texture, once per map. Tiles are drawn 1:1 at the atlas resolution, so no tile is
+   * ever sampled at a fractional position (the atlas has no padding, so that would bleed neighbours into visible seams).
+   * Each stamp (island, rock, palm) is baked first and then scaled as a single image for the same reason.
+   */
   private buildMap(map: MapData) {
+    const { app } = this
+    if (!app) return
     this.map = map
     this.tiles.removeChildren().forEach((c) => c.destroy())
-    const add = (name: string, i: number) => {
+    this.mapTexture?.destroy(true)
+    const sea = getTexture(`tile_${map.seaTile}`)
+    const resolution = sea.source.resolution
+    const bake = (target: Container, w: number, h: number) =>
+      app.renderer.generateTexture({ target, resolution, antialias: false, frame: new Rectangle(0, 0, w, h) })
+    const tile = (n: number, x: number, y: number, parent: Container) => {
+      const name = `tile_${n}`
       if (!hasTexture(name)) return
-      const s = new Sprite(getTexture(name))
-      s.position.set((i % map.cols) * map.tileSize, Math.floor(i / map.cols) * map.tileSize)
-      this.tiles.addChild(s)
+      const sp = new Sprite(getTexture(name))
+      sp.position.set(x, y)
+      parent.addChild(sp)
     }
-    // Island tiles have transparent corners: put sea (tile_73) under every cell.
-    map.tiles.forEach((n, i) => { if (n !== 73) add('tile_73', i) })
-    map.tiles.forEach((n, i) => add(`tile_${n}`, i))
-    this.cacheTiles()
+    const ts = map.tileSize
+    const root = new Container()
+    for (let y = 0; y < map.height; y += ts) for (let x = 0; x < map.width; x += ts) tile(map.seaTile, x, y, root)
+    const stampTextures = map.stamps.map((st) => {
+      const block = new Container()
+      st.tiles.forEach((row, ty) => row.forEach((n, tx) => tile(n, tx * ts, ty * ts, block)))
+      const tex = bake(block, (st.tiles[0]?.length ?? 0) * ts, st.tiles.length * ts)
+      block.destroy({ children: true })
+      const sp = new Sprite(tex)
+      sp.position.set(st.x, st.y)
+      sp.scale.set(st.scale)
+      root.addChild(sp)
+      return tex
+    })
+    this.mapTexture = bake(root, map.width, map.height)
+    root.destroy({ children: true })
+    stampTextures.forEach((t) => t.destroy(true))
+    this.tiles.addChild(new Sprite(this.mapTexture))
   }
 
   private newShipView(): ShipView {

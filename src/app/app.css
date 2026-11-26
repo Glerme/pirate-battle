@@ -151,6 +151,17 @@ tr.me td { background: rgba(120, 100, 40, .55); }
 .pad { width: 72px; height: 72px; touch-action: none; }
 .pad img { width: 36px; height: 36px; }
 .pad-group .pad:nth-child(2) { margin-bottom: 36px; }
+/* Touch: controls get their own side columns and the arena is fitted between them, so no button covers the play area. */
+@media (pointer: coarse) {
+  .play { --pad-col: calc(88px + env(safe-area-inset-left)); background: #0b2236; }
+  .stage { left: var(--pad-col); right: var(--pad-col); }
+  .pad-group { flex-direction: column; align-items: center; gap: 10px; width: 64px; }
+  .pad-left { left: calc((88px - 64px) / 2 + env(safe-area-inset-left)); }
+  .pad-right { right: calc((88px - 64px) / 2 + env(safe-area-inset-right)); }
+  .pad { width: 64px; height: 64px; }
+  .pad img { width: 32px; height: 32px; }
+  .pad-group .pad:nth-child(2) { margin-bottom: 0; order: -1; } /* forward / front fire on top */
+}
 .rotate { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: rgba(5, 12, 25, .92); }
 
 @media (max-height: 520px) {
