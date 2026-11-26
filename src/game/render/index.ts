@@ -1,1 +1,1 @@
-export {}
+export { PixiRenderer } from './PixiRenderer'
