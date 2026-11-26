@@ -1,16 +1,13 @@
 import { Application, Container, Graphics, Rectangle, Sprite, Texture } from 'pixi.js'
 import { DEFAULT_GAME_CONFIG } from '../config'
 import { getTexture, hasTexture } from '../assets'
-import type { SoundManager } from '../audio'
+import { sounds } from '../audio'
 import type { GameEvent, MapData, ProjectileState, Renderer, ShipState, WorldSnapshot } from '../types'
 
 const { width: ARENA_W, height: ARENA_H } = DEFAULT_GAME_CONFIG.arena
 const SHAKE_MS = 160
 const FLASH_MS = 110
 const EXPLOSION = ['explosion_3', 'explosion_2', 'explosion_1']
-
-/** Previous/current simulated pose, so render(alpha) can interpolate between fixed steps. */
-interface Track { px: number; py: number; pr: number; x: number; y: number; r: number }
 
 interface ShipView {
   hull: Container
@@ -19,24 +16,18 @@ interface ShipView {
   bar: Container
   frame: Sprite
   fill: Sprite
-  t: Track
   dmg: number
   fillKey: string
   flashMs: number
   seen: number
 }
 
-interface ProjView { sprite: Sprite; t: Track; seen: number }
+interface ProjView { sprite: Sprite; seen: number }
 
 interface Fx { sprite: Sprite; frames: Texture[]; age: number; dur: number; s0: number; s1: number }
 
 const lerp = (a: number, b: number, k: number) => a + (b - a) * k
 const lerpAngle = (a: number, b: number, k: number) => a + (((b - a + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI) * k
-
-function setPose(t: Track, x: number, y: number, r: number, stepped: boolean, fresh: boolean) {
-  if (fresh) Object.assign(t, { px: x, py: y, pr: r, x, y, r })
-  else if (stepped) Object.assign(t, { px: t.x, py: t.y, pr: t.r, x, y, r })
-}
 
 const damageState = (s: ShipState) => {
   const k = s.hp / s.maxHp
@@ -63,13 +54,16 @@ export class PixiRenderer implements Renderer {
   private freeFx: Fx[] = []
   private fillTextures = new Map<string, Texture>()
   private ring?: Texture
+  private puff?: Texture
   private lastSim = Number.NaN
+  private shipPos = new Map<number, { x: number; y: number; r: number }>() // interpolated pose, for muzzle fx
   private stamp = 0
   private shakeMs = 0
   private simMs = 0
+  private dt = 0
   private base = { x: 0, y: 0 }
 
-  constructor(private readonly sound?: SoundManager) {
+  constructor() {
     this.world.addChild(this.tiles, this.shipLayer, this.projLayer, this.fxLayer, this.barLayer)
   }
 
@@ -90,6 +84,7 @@ export class PixiRenderer implements Renderer {
     this.app = app
     app.stage.addChild(this.world)
     this.ring = app.renderer.generateTexture(new Graphics().circle(0, 0, 30).stroke({ width: 4, color: 0xffffff }))
+    this.puff = app.renderer.generateTexture(new Graphics().circle(0, 0, 14).fill({ color: 0xd8d8d8 }))
     container.appendChild(app.canvas)
     this.observer = new ResizeObserver(() => this.resize())
     this.observer.observe(container)
@@ -116,12 +111,13 @@ export class PixiRenderer implements Renderer {
     this.lastSim = world.simTimeMs
     this.simMs = world.simTimeMs
     this.stamp++
+    this.dt = dt
 
     if (world.map !== this.map) this.buildMap(world.map)
-    this.syncShips(world.ships, stepped, alpha)
+    this.syncShips(world.ships, alpha)
     this.syncProjectiles(world.projectiles, stepped, alpha)
     for (const e of world.events) this.onEvent(e)
-    this.sound?.handle(world.events)
+    sounds.handle(world.events)
     this.updateEffects(dt)
 
     this.shakeMs = Math.max(0, this.shakeMs - dt)
@@ -138,10 +134,12 @@ export class PixiRenderer implements Renderer {
     this.fillTextures.forEach((t) => t.destroy(false))
     this.fillTextures.clear()
     this.ring?.destroy(true)
+    this.puff?.destroy(true)
+    sounds.stopAmbience()
     // children only: atlas textures are shared and stay in the Assets cache
     this.app.destroy(true, { children: true })
     this.app = undefined
-    this.ships.clear(); this.freeShips = []; this.projs.clear(); this.freeProjs = []
+    this.shipPos.clear(); this.ships.clear(); this.freeShips = []; this.projs.clear(); this.freeProjs = []
     this.activeFx = []; this.freeFx = []
   }
 
@@ -168,14 +166,13 @@ export class PixiRenderer implements Renderer {
     bar.addChild(frame, fill)
     this.shipLayer.addChild(hull)
     this.barLayer.addChild(bar)
-    return { hull, body, fire, bar, frame, fill, t: { px: 0, py: 0, pr: 0, x: 0, y: 0, r: 0 }, dmg: -1, fillKey: '', flashMs: 0, seen: 0 }
+    return { hull, body, fire, bar, frame, fill, dmg: -1, fillKey: '', flashMs: 0, seen: 0 }
   }
 
-  private syncShips(ships: readonly ShipState[], stepped: boolean, alpha: number) {
+  private syncShips(ships: readonly ShipState[], alpha: number) {
     for (const s of ships) {
       if (!s.alive) continue
       let v = this.ships.get(s.id)
-      const fresh = !v
       if (!v) {
         v = this.freeShips.pop() ?? this.newShipView()
         v.hull.visible = v.bar.visible = true
@@ -187,11 +184,10 @@ export class PixiRenderer implements Renderer {
         v.bar.scale.set(player ? 0.36 : 0.42)
       }
       v.seen = this.stamp
-      setPose(v.t, s.x, s.y, s.rotation, stepped, fresh)
-      const t = v.t
-      const x = lerp(t.px, t.x, alpha), y = lerp(t.py, t.y, alpha)
+      const x = lerp(s.prevX, s.x, alpha), y = lerp(s.prevY, s.y, alpha), r = lerpAngle(s.prevRotation, s.rotation, alpha)
+      this.shipPos.set(s.id, { x, y, r })
       v.hull.position.set(x, y)
-      v.hull.rotation = lerpAngle(t.pr, t.r, alpha)
+      v.hull.rotation = r
       v.bar.position.set(x, y - 72) // not parented to the hull, so it never rotates
 
       const dmg = damageState(s)
@@ -202,7 +198,7 @@ export class PixiRenderer implements Renderer {
       const burning = dmg >= 2
       v.fire.visible = burning
       if (burning) v.fire.texture = getTexture(Math.floor(this.simMs / 120) % 2 ? 'fire_1' : 'fire_2')
-      v.flashMs = Math.max(0, v.flashMs - (stepped ? 16.7 : 0))
+      v.flashMs = Math.max(0, v.flashMs - this.dt)
       v.body.tint = v.flashMs > 0 ? 0xff7070 : 0xffffff
       this.setBar(v, s)
     }
@@ -210,6 +206,7 @@ export class PixiRenderer implements Renderer {
       if (v.seen === this.stamp) continue
       v.hull.visible = v.bar.visible = false
       this.ships.delete(id)
+      this.shipPos.delete(id)
       this.freeShips.push(v)
     }
   }
@@ -236,21 +233,21 @@ export class PixiRenderer implements Renderer {
   private syncProjectiles(list: readonly ProjectileState[], stepped: boolean, alpha: number) {
     for (const p of list) {
       let v = this.projs.get(p.id)
-      const fresh = !v
       if (!v) {
         v = this.freeProjs.pop()
         if (!v) {
           const sprite = new Sprite(getTexture('cannon_ball')); sprite.anchor.set(0.5)
           this.projLayer.addChild(sprite)
-          v = { sprite, t: { px: 0, py: 0, pr: 0, x: 0, y: 0, r: 0 }, seen: 0 }
+          v = { sprite, seen: 0 }
         }
         v.sprite.visible = true
         this.projs.set(p.id, v)
       }
       v.seen = this.stamp
-      setPose(v.t, p.x, p.y, p.rotation, stepped, fresh)
-      v.sprite.position.set(lerp(v.t.px, v.t.x, alpha), lerp(v.t.py, v.t.y, alpha))
-      v.sprite.rotation = v.t.r
+      const x = lerp(p.prevX, p.x, alpha), y = lerp(p.prevY, p.y, alpha)
+      v.sprite.position.set(x, y)
+      v.sprite.rotation = p.rotation
+      if (stepped) this.spawnFx(['cannon_ball'], x, y, 220, 0.7, 0.2) // short fading trail
     }
     for (const [id, v] of this.projs) {
       if (v.seen === this.stamp) continue
@@ -263,10 +260,12 @@ export class PixiRenderer implements Renderer {
   private onEvent(e: GameEvent) {
     switch (e.type) {
       case 'shot': {
-        const v = this.ships.get(e.shipId)
-        if (!v) return
-        const a = v.t.r + (e.weapon === 'left' ? -Math.PI / 2 : e.weapon === 'right' ? Math.PI / 2 : 0)
-        this.spawnFx(['explosion_3'], v.t.x + Math.sin(a) * 42, v.t.y - Math.cos(a) * 42, 130, 0.4, 0.8)
+        const p = this.shipPos.get(e.shipId)
+        if (!p) return
+        const a = p.r + (e.weapon === 'left' ? -Math.PI / 2 : e.weapon === 'right' ? Math.PI / 2 : 0)
+        const mx = p.x + Math.sin(a) * 42, my = p.y - Math.cos(a) * 42
+        this.spawnFx(['explosion_3'], mx, my, 130, 0.4, 0.8)
+        if (this.puff) this.spawnFx([this.puff], mx + Math.sin(a) * 14, my - Math.cos(a) * 14, 550, 0.6, 2.2) // muzzle smoke
         break
       }
       case 'hit': {

@@ -1,48 +1,57 @@
 import { useEffect, useRef } from 'react'
 import { loadGameAssets } from './assets'
-import type { SoundManager } from './audio'
-import { PixiRenderer } from './render'
-import type { AssetLoadProgress, Renderer } from './types'
+import { bindHudSounds } from './audio'
+import { createPixiRenderer } from './render'
+import { createGameSession } from './session'
+import type { GameCanvasProps } from './types'
 
-export interface GameCanvasProps {
-  /** Loading progress / error state; render the progress bar and error panel from this. */
-  onProgress?: (p: AssetLoadProgress) => void
-  /** Called with the initialised renderer once assets are loaded, and with null on teardown. */
-  onRenderer?: (r: Renderer | null) => void
-  /** Increment to retry after an error (the asset bundle is unloaded and reloaded). */
-  attempt?: number
-  sound?: SoundManager
-  className?: string
-}
-
-export function GameCanvas({ onProgress, onRenderer, attempt = 0, sound, className }: GameCanvasProps) {
+export function GameCanvas({ config, seed, onLoadState, onSession }: GameCanvasProps) {
   const host = useRef<HTMLDivElement>(null)
-  const cb = useRef({ onProgress, onRenderer })
+  const cb = useRef({ onLoadState, onSession })
   useEffect(() => {
-    cb.current = { onProgress, onRenderer }
+    cb.current = { onLoadState, onSession }
   })
 
   useEffect(() => {
     const el = host.current
     if (!el) return
     let cancelled = false
-    const renderer = new PixiRenderer(sound)
-    ;(async () => {
+    let teardown = () => {}
+
+    const run = async (retry: boolean) => {
+      if (cancelled) return
+      const renderer = createPixiRenderer()
+      let session: ReturnType<typeof createGameSession> | undefined
+      let unbind = () => {}
+      teardown = () => {
+        unbind()
+        session?.destroy()
+        renderer.destroy()
+        cb.current.onSession(null)
+      }
       try {
-        await loadGameAssets((p) => !cancelled && cb.current.onProgress?.(p), attempt > 0)
+        await loadGameAssets((p) => !cancelled && cb.current.onLoadState(p), retry)
         if (cancelled) return
         await renderer.init(el)
-        if (!cancelled) cb.current.onRenderer?.(renderer)
-      } catch {
-        // asset errors were already reported through onProgress
+        if (cancelled) return
+        session = createGameSession({ config, seed, renderer })
+        unbind = bindHudSounds(session)
+        await session.start()
+        if (!cancelled) cb.current.onSession(session)
+      } catch (err) {
+        teardown()
+        if (cancelled) return
+        // loadGameAssets already reported its own failure; report renderer/session ones here
+        const message = err instanceof Error ? err.message : 'Could not start the game.'
+        cb.current.onLoadState({ progress: 0, status: 'error', error: message, retry: () => void run(true) })
       }
-    })()
+    }
+    void run(false)
     return () => {
       cancelled = true
-      renderer.destroy()
-      cb.current.onRenderer?.(null)
+      teardown()
     }
-  }, [attempt, sound])
+  }, [config, seed])
 
-  return <div ref={host} className={className} style={{ width: '100%', height: '100%', overflow: 'hidden' }} />
+  return <div ref={host} style={{ width: '100%', height: '100%', overflow: 'hidden' }} />
 }

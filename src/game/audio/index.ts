@@ -1,4 +1,4 @@
-import type { GameEvent } from '../types'
+import type { AudioControls, GameEvent, GameSessionApi } from '../types'
 
 const FILES = [
   'cannon_fire_1', 'cannon_fire_2', 'cannon_fire_3', 'cannon_broadside', 'ship_wood_hit_1', 'ship_wood_hit_2',
@@ -18,18 +18,18 @@ function readMuted(): boolean {
   }
 }
 
-export class SoundManager {
+class SoundManager implements AudioControls {
   private ctx?: AudioContext
   private master?: GainNode
   private buffers = new Map<SoundName, AudioBuffer>()
   private loops = new Map<SoundName, AudioBufferSourceNode>()
   private n = 0 // round-robin index for variant sounds
-  private destroyed = false
-  muted = readMuted()
+  private muted = readMuted()
+  private listeners = new Set<() => void>()
 
   /** Fetches and decodes the sounds. Call after a user gesture (Play); failure is non-fatal (game stays silent). */
   async load(): Promise<void> {
-    if (this.ctx || this.destroyed) return
+    if (this.ctx) return
     try {
       const ctx = new AudioContext()
       const master = ctx.createGain()
@@ -48,8 +48,16 @@ export class SoundManager {
     }
   }
 
-  setMuted(muted: boolean): void {
+  isMuted = () => this.muted
+
+  subscribe = (cb: () => void) => {
+    this.listeners.add(cb)
+    return () => void this.listeners.delete(cb)
+  }
+
+  setMuted = (muted: boolean): void => {
     this.muted = muted
+    this.listeners.forEach((cb) => cb())
     if (this.master) this.master.gain.value = muted ? 0 : 1
     try {
       localStorage.setItem(MUTE_KEY, muted ? '1' : '0')
@@ -61,7 +69,7 @@ export class SoundManager {
   play(name: SoundName, loop = false): void {
     const { ctx, master } = this
     const buffer = this.buffers.get(name)
-    if (!ctx || !master || !buffer || this.destroyed || (this.muted && !loop)) return
+    if (!ctx || !master || !buffer || (this.muted && !loop)) return
     if (loop && this.loops.has(name)) return
     if (ctx.state === 'suspended') void ctx.resume().catch(() => undefined)
     const src = ctx.createBufferSource()
@@ -94,18 +102,35 @@ export class SoundManager {
           if (e.byPlayer) this.play('score_point')
           break
         case 'chaserRam': this.play('ship_explosion_2'); this.play('ship_collision'); break
-        case 'matchEnded': this.stopAmbience(); this.play(e.result === 'time_up' ? 'game_complete' : 'game_over'); break
+        case 'matchEnded': this.stopAmbience(); this.play(e.reason === 'time_up' ? 'game_complete' : 'game_over'); break
         default: break
       }
     }
   }
+}
 
-  destroy(): void {
-    this.destroyed = true
-    this.loops.forEach((s) => s.stop())
-    this.loops.clear()
-    this.buffers.clear()
-    void this.ctx?.close().catch(() => undefined)
-    this.ctx = undefined
-  }
+/** Singleton: the context and decoded buffers outlive matches; the renderer plays event sounds through it. */
+export const sounds = new SoundManager()
+export const audio: AudioControls = sounds
+
+const WARN_SEC = 10
+
+/** Plays status sounds (start/pause/resume/time_warning/health_low) from HUD changes; returns unsubscribe. */
+export function bindHudSounds(session: GameSessionApi): () => void {
+  let prev = session.hud.getSnapshot()
+  void sounds.load()
+  return session.hud.subscribe(() => {
+    const h = session.hud.getSnapshot()
+    if (prev.status !== h.status) {
+      if (h.status === 'running') {
+        sounds.play(prev.status === 'loading' ? 'game_start' : 'game_resume')
+        sounds.startAmbience()
+      } else if (h.status === 'paused') sounds.play('game_pause')
+    }
+    if (h.status === 'running') {
+      if (prev.remainingSec > WARN_SEC && h.remainingSec <= WARN_SEC) sounds.play('time_warning')
+      if (prev.hp / prev.maxHp > 0.25 && h.hp / h.maxHp <= 0.25 && h.hp > 0) sounds.play('health_low')
+    }
+    prev = h
+  })
 }
