@@ -106,6 +106,12 @@ export class PixiRenderer implements Renderer {
     this.world.scale.set(s)
     this.base = { x: (width - ARENA_W * s) / 2, y: (height - ARENA_H * s) / 2 }
     this.world.position.set(this.base.x, this.base.y)
+    if (this.map) this.cacheTiles()
+  }
+
+  /** Bakes the static map into one texture; re-baked only on map/resize so the ~600 tile sprites cost nothing per frame. */
+  private cacheTiles() {
+    this.tiles.cacheAsTexture({ resolution: (this.app?.renderer.resolution ?? 1) * this.world.scale.x, antialias: false })
   }
 
   render(world: WorldSnapshot, alpha: number): void {
@@ -161,6 +167,7 @@ export class PixiRenderer implements Renderer {
     // Island tiles have transparent corners: put sea (tile_73) under every cell.
     map.tiles.forEach((n, i) => { if (n !== 73) add('tile_73', i) })
     map.tiles.forEach((n, i) => add(`tile_${n}`, i))
+    this.cacheTiles()
   }
 
   private newShipView(): ShipView {

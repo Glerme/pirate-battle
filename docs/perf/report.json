@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T19:08:06.436Z",
+  "generatedAt": "2026-11-26T19:15:04.165Z",
   "hardware": {
     "cpu": "AMD Ryzen 5 5500",
     "cores": 12,
@@ -7,7 +7,7 @@
     "os": "Linux 7.3.6-1-cachyos",
     "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
   },
-  "browser": "Chromium 159.0.8154.6 (headless, Playwright)",
+  "browser": "Chromium 159.0.8154.6 (new headless, Playwright, hardware GPU)",
   "resolution": {
     "width": 1280,
     "height": 720,
@@ -22,19 +22,19 @@
   "longRun": {
     "matches": 2,
     "playedSec": 180,
-    "frames": 6123,
-    "avgFps": 34,
-    "avgFrameMs": 29.41,
-    "p50FrameMs": 33.3,
-    "p95FrameMs": 49.9,
-    "p99FrameMs": 66.6,
-    "maxFrameMs": 400,
-    "enemiesAvg": 2.4,
+    "frames": 3649,
+    "avgFps": 20.3,
+    "avgFrameMs": 49.26,
+    "p50FrameMs": 50,
+    "p95FrameMs": 66.7,
+    "p99FrameMs": 66.7,
+    "maxFrameMs": 83.4,
+    "enemiesAvg": 6.7,
     "enemiesMax": 8,
-    "projectilesAvg": 1.5,
-    "projectilesMax": 7,
-    "displayObjectsAvg": 647,
-    "displayObjectsMax": 675
+    "projectilesAvg": 2.8,
+    "projectilesMax": 6,
+    "displayObjectsAvg": 634,
+    "displayObjectsMax": 650
   },
   "entityCountsOverTime": [
     {
@@ -50,12 +50,6 @@
       "displayObjects": 548
     },
     {
-      "tSec": 2,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 554
-    },
-    {
       "tSec": 3,
       "ships": 1,
       "projectiles": 0,
@@ -65,1003 +59,1003 @@
       "tSec": 4,
       "ships": 1,
       "projectiles": 1,
-      "displayObjects": 579
+      "displayObjects": 563
     },
     {
       "tSec": 5,
-      "ships": 1,
-      "projectiles": 2,
-      "displayObjects": 579
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 569
     },
     {
       "tSec": 6,
-      "ships": 1,
+      "ships": 2,
       "projectiles": 1,
-      "displayObjects": 588
+      "displayObjects": 569
     },
     {
       "tSec": 7,
-      "ships": 1,
+      "ships": 2,
       "projectiles": 1,
-      "displayObjects": 588
+      "displayObjects": 569
+    },
+    {
+      "tSec": 8,
+      "ships": 2,
+      "projectiles": 0,
+      "displayObjects": 569
     },
     {
       "tSec": 9,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 599
+      "ships": 3,
+      "projectiles": 0,
+      "displayObjects": 575
     },
     {
       "tSec": 10,
-      "ships": 1,
-      "projectiles": 2,
-      "displayObjects": 599
+      "ships": 3,
+      "projectiles": 0,
+      "displayObjects": 575
     },
     {
       "tSec": 11,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 599
+      "ships": 4,
+      "projectiles": 0,
+      "displayObjects": 581
     },
     {
       "tSec": 12,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 599
+      "ships": 4,
+      "projectiles": 1,
+      "displayObjects": 590
     },
     {
       "tSec": 13,
-      "ships": 1,
+      "ships": 4,
       "projectiles": 1,
-      "displayObjects": 599
+      "displayObjects": 592
     },
     {
       "tSec": 14,
-      "ships": 1,
-      "projectiles": 0,
+      "ships": 4,
+      "projectiles": 2,
       "displayObjects": 599
     },
     {
       "tSec": 15,
-      "ships": 2,
-      "projectiles": 2,
+      "ships": 4,
+      "projectiles": 1,
       "displayObjects": 599
     },
     {
       "tSec": 16,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 599
+      "ships": 5,
+      "projectiles": 3,
+      "displayObjects": 616
     },
     {
       "tSec": 17,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 599
+      "ships": 4,
+      "projectiles": 2,
+      "displayObjects": 616
     },
     {
       "tSec": 18,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 599
+      "ships": 4,
+      "projectiles": 1,
+      "displayObjects": 616
     },
     {
       "tSec": 19,
-      "ships": 2,
-      "projectiles": 4,
-      "displayObjects": 599
+      "ships": 4,
+      "projectiles": 5,
+      "displayObjects": 616
     },
     {
       "tSec": 20,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 599
+      "ships": 5,
+      "projectiles": 3,
+      "displayObjects": 616
     },
     {
       "tSec": 21,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 599
+      "ships": 5,
+      "projectiles": 5,
+      "displayObjects": 616
     },
     {
       "tSec": 22,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 605
-    },
-    {
-      "tSec": 23,
-      "ships": 2,
+      "ships": 5,
       "projectiles": 3,
-      "displayObjects": 605
+      "displayObjects": 623
     },
     {
       "tSec": 24,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 605
+      "ships": 4,
+      "projectiles": 2,
+      "displayObjects": 623
     },
     {
       "tSec": 25,
-      "ships": 2,
+      "ships": 5,
       "projectiles": 2,
-      "displayObjects": 605
+      "displayObjects": 623
     },
     {
       "tSec": 26,
-      "ships": 2,
+      "ships": 4,
       "projectiles": 1,
-      "displayObjects": 605
+      "displayObjects": 623
     },
     {
       "tSec": 27,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 605
+      "ships": 4,
+      "projectiles": 2,
+      "displayObjects": 623
     },
     {
       "tSec": 28,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 605
+      "ships": 4,
+      "projectiles": 2,
+      "displayObjects": 623
+    },
+    {
+      "tSec": 29,
+      "ships": 4,
+      "projectiles": 1,
+      "displayObjects": 623
     },
     {
       "tSec": 30,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 605
+      "ships": 4,
+      "projectiles": 4,
+      "displayObjects": 623
     },
     {
       "tSec": 31,
-      "ships": 2,
-      "projectiles": 3,
-      "displayObjects": 605
+      "ships": 4,
+      "projectiles": 1,
+      "displayObjects": 623
     },
     {
       "tSec": 32,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 605
+      "ships": 5,
+      "projectiles": 2,
+      "displayObjects": 623
     },
     {
       "tSec": 33,
-      "ships": 2,
+      "ships": 5,
       "projectiles": 0,
-      "displayObjects": 605
+      "displayObjects": 623
     },
     {
       "tSec": 34,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 605
+      "ships": 6,
+      "projectiles": 1,
+      "displayObjects": 623
     },
     {
       "tSec": 35,
-      "ships": 2,
+      "ships": 6,
       "projectiles": 2,
-      "displayObjects": 605
-    },
-    {
-      "tSec": 36,
-      "ships": 2,
-      "projectiles": 5,
-      "displayObjects": 608
+      "displayObjects": 623
     },
     {
       "tSec": 37,
-      "ships": 3,
-      "projectiles": 3,
-      "displayObjects": 620
+      "ships": 7,
+      "projectiles": 2,
+      "displayObjects": 629
     },
     {
       "tSec": 38,
-      "ships": 3,
-      "projectiles": 5,
-      "displayObjects": 620
+      "ships": 5,
+      "projectiles": 1,
+      "displayObjects": 629
     },
     {
       "tSec": 39,
-      "ships": 3,
-      "projectiles": 2,
-      "displayObjects": 632
+      "ships": 5,
+      "projectiles": 1,
+      "displayObjects": 629
     },
     {
       "tSec": 40,
       "ships": 4,
-      "projectiles": 2,
-      "displayObjects": 632
+      "projectiles": 3,
+      "displayObjects": 629
     },
     {
       "tSec": 41,
-      "ships": 3,
-      "projectiles": 5,
-      "displayObjects": 632
+      "ships": 4,
+      "projectiles": 4,
+      "displayObjects": 629
     },
     {
       "tSec": 42,
-      "ships": 3,
-      "projectiles": 2,
-      "displayObjects": 636
+      "ships": 5,
+      "projectiles": 3,
+      "displayObjects": 629
     },
     {
       "tSec": 43,
-      "ships": 3,
-      "projectiles": 1,
-      "displayObjects": 636
+      "ships": 5,
+      "projectiles": 2,
+      "displayObjects": 629
     },
     {
       "tSec": 44,
-      "ships": 3,
+      "ships": 6,
       "projectiles": 1,
-      "displayObjects": 636
+      "displayObjects": 629
     },
     {
       "tSec": 45,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 636
+      "ships": 5,
+      "projectiles": 2,
+      "displayObjects": 629
     },
     {
       "tSec": 46,
-      "ships": 3,
-      "projectiles": 0,
-      "displayObjects": 636
+      "ships": 6,
+      "projectiles": 2,
+      "displayObjects": 629
     },
     {
       "tSec": 47,
-      "ships": 3,
+      "ships": 4,
       "projectiles": 1,
-      "displayObjects": 636
+      "displayObjects": 629
     },
     {
-      "tSec": 49,
-      "ships": 3,
-      "projectiles": 2,
-      "displayObjects": 636
+      "tSec": 48,
+      "ships": 5,
+      "projectiles": 3,
+      "displayObjects": 629
     },
     {
       "tSec": 50,
-      "ships": 1,
-      "projectiles": 2,
-      "displayObjects": 636
+      "ships": 4,
+      "projectiles": 0,
+      "displayObjects": 629
     },
     {
       "tSec": 51,
-      "ships": 2,
+      "ships": 4,
       "projectiles": 2,
-      "displayObjects": 636
+      "displayObjects": 629
     },
     {
       "tSec": 52,
-      "ships": 2,
+      "ships": 3,
       "projectiles": 4,
-      "displayObjects": 636
+      "displayObjects": 629
     },
     {
       "tSec": 53,
-      "ships": 3,
-      "projectiles": 3,
-      "displayObjects": 636
+      "ships": 4,
+      "projectiles": 1,
+      "displayObjects": 629
     },
     {
       "tSec": 54,
-      "ships": 3,
-      "projectiles": 5,
-      "displayObjects": 636
+      "ships": 4,
+      "projectiles": 3,
+      "displayObjects": 629
     },
     {
       "tSec": 55,
-      "ships": 4,
-      "projectiles": 3,
-      "displayObjects": 636
+      "ships": 5,
+      "projectiles": 1,
+      "displayObjects": 629
     },
     {
       "tSec": 56,
-      "ships": 4,
-      "projectiles": 1,
-      "displayObjects": 636
+      "ships": 5,
+      "projectiles": 3,
+      "displayObjects": 629
     },
     {
       "tSec": 57,
-      "ships": 5,
-      "projectiles": 0,
-      "displayObjects": 642
+      "ships": 6,
+      "projectiles": 1,
+      "displayObjects": 629
     },
     {
       "tSec": 58,
-      "ships": 5,
+      "ships": 6,
       "projectiles": 2,
-      "displayObjects": 642
+      "displayObjects": 629
     },
     {
       "tSec": 59,
-      "ships": 5,
+      "ships": 7,
       "projectiles": 1,
-      "displayObjects": 642
+      "displayObjects": 629
     },
     {
       "tSec": 60,
-      "ships": 6,
+      "ships": 8,
       "projectiles": 1,
-      "displayObjects": 648
+      "displayObjects": 635
     },
     {
       "tSec": 61,
-      "ships": 6,
-      "projectiles": 2,
-      "displayObjects": 648
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 635
     },
     {
       "tSec": 62,
-      "ships": 7,
-      "projectiles": 1,
-      "displayObjects": 654
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 635
     },
     {
       "tSec": 63,
-      "ships": 7,
-      "projectiles": 2,
-      "displayObjects": 654
+      "ships": 8,
+      "projectiles": 6,
+      "displayObjects": 643
     },
     {
       "tSec": 64,
       "ships": 8,
-      "projectiles": 1,
-      "displayObjects": 660
+      "projectiles": 2,
+      "displayObjects": 643
     },
     {
       "tSec": 65,
       "ships": 8,
-      "projectiles": 1,
-      "displayObjects": 660
+      "projectiles": 4,
+      "displayObjects": 643
     },
     {
       "tSec": 66,
       "ships": 8,
       "projectiles": 4,
-      "displayObjects": 660
-    },
-    {
-      "tSec": 67,
-      "ships": 7,
-      "projectiles": 2,
-      "displayObjects": 660
+      "displayObjects": 643
     },
     {
       "tSec": 68,
-      "ships": 7,
-      "projectiles": 4,
-      "displayObjects": 660
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 643
     },
     {
       "tSec": 69,
-      "ships": 6,
-      "projectiles": 2,
-      "displayObjects": 660
+      "ships": 8,
+      "projectiles": 6,
+      "displayObjects": 643
     },
     {
       "tSec": 70,
-      "ships": 6,
-      "projectiles": 7,
-      "displayObjects": 660
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 643
+    },
+    {
+      "tSec": 71,
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 643
     },
     {
       "tSec": 72,
-      "ships": 5,
-      "projectiles": 4,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 643
     },
     {
       "tSec": 73,
-      "ships": 5,
+      "ships": 8,
       "projectiles": 3,
-      "displayObjects": 668
+      "displayObjects": 643
     },
     {
       "tSec": 74,
-      "ships": 5,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 643
     },
     {
       "tSec": 75,
-      "ships": 4,
+      "ships": 8,
       "projectiles": 1,
-      "displayObjects": 668
+      "displayObjects": 646
     },
     {
       "tSec": 76,
-      "ships": 4,
-      "projectiles": 3,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 77,
-      "ships": 4,
-      "projectiles": 4,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 78,
-      "ships": 3,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 79,
-      "ships": 3,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 80,
-      "ships": 4,
-      "projectiles": 5,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 81,
-      "ships": 4,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 6,
+      "displayObjects": 646
     },
     {
       "tSec": 82,
-      "ships": 4,
-      "projectiles": 4,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 83,
-      "ships": 3,
-      "projectiles": 6,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 84,
-      "ships": 3,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 85,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
-    },
-    {
-      "tSec": 86,
-      "ships": 3,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 87,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 88,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 89,
-      "ships": 1,
-      "projectiles": 3,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 6,
+      "displayObjects": 646
     },
     {
       "tSec": 90,
-      "ships": 2,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
+    },
+    {
+      "tSec": 91,
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 92,
-      "ships": 1,
-      "projectiles": 3,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 93,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 94,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 95,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 96,
-      "ships": 0,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 97,
-      "ships": 0,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 98,
-      "ships": 0,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 99,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 100,
-      "ships": 2,
+      "ships": 8,
       "projectiles": 1,
-      "displayObjects": 668
+      "displayObjects": 646
     },
     {
       "tSec": 101,
-      "ships": 1,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 102,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 103,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 104,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 105,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 1,
+      "displayObjects": 646
     },
     {
       "tSec": 106,
-      "ships": 3,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 107,
-      "ships": 3,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
+    },
+    {
+      "tSec": 108,
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 109,
-      "ships": 3,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 110,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 111,
-      "ships": 3,
-      "projectiles": 0,
-      "displayObjects": 668
-    },
-    {
-      "tSec": 112,
-      "ships": 3,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 113,
-      "ships": 3,
+      "ships": 8,
       "projectiles": 2,
-      "displayObjects": 668
+      "displayObjects": 646
     },
     {
       "tSec": 114,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 115,
-      "ships": 2,
-      "projectiles": 4,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 116,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 117,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 118,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 1,
+      "displayObjects": 646
     },
     {
       "tSec": 119,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 120,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 121,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 122,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 123,
-      "ships": 2,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 124,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 125,
-      "ships": 1,
-      "projectiles": 3,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 1,
+      "displayObjects": 646
     },
     {
       "tSec": 126,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 127,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
+    },
+    {
+      "tSec": 128,
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 129,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 130,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 131,
-      "ships": 1,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 132,
-      "ships": 0,
+      "ships": 8,
       "projectiles": 2,
-      "displayObjects": 668
+      "displayObjects": 646
     },
     {
       "tSec": 133,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
-    },
-    {
-      "tSec": 134,
-      "ships": 1,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 6,
+      "displayObjects": 646
     },
     {
       "tSec": 135,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 136,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 137,
-      "ships": 2,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 138,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 139,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 140,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 141,
-      "ships": 1,
-      "projectiles": 3,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 142,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 143,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 1,
+      "displayObjects": 646
     },
     {
       "tSec": 144,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 145,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
+    },
+    {
+      "tSec": 146,
+      "ships": 8,
+      "projectiles": 6,
+      "displayObjects": 646
     },
     {
       "tSec": 147,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 148,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 149,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 150,
-      "ships": 1,
+      "ships": 8,
       "projectiles": 1,
-      "displayObjects": 668
+      "displayObjects": 646
     },
     {
       "tSec": 151,
-      "ships": 1,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 646
     },
     {
       "tSec": 152,
-      "ships": 1,
-      "projectiles": 2,
-      "displayObjects": 668
-    },
-    {
-      "tSec": 153,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 154,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 155,
-      "ships": 1,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 156,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 157,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 158,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 159,
-      "ships": 2,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 6,
+      "displayObjects": 646
     },
     {
       "tSec": 160,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 161,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 162,
-      "ships": 3,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 163,
-      "ships": 2,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 1,
+      "displayObjects": 646
     },
     {
       "tSec": 164,
-      "ships": 3,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 6,
+      "displayObjects": 646
     },
     {
       "tSec": 165,
-      "ships": 3,
-      "projectiles": 0,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 166,
-      "ships": 4,
-      "projectiles": 2,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 167,
-      "ships": 3,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 168,
-      "ships": 3,
-      "projectiles": 3,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 646
     },
     {
       "tSec": 170,
-      "ships": 2,
-      "projectiles": 5,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 6,
+      "displayObjects": 646
     },
     {
       "tSec": 171,
-      "ships": 3,
-      "projectiles": 4,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 3,
+      "displayObjects": 646
     },
     {
       "tSec": 172,
-      "ships": 2,
-      "projectiles": 5,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 646
     },
     {
       "tSec": 173,
-      "ships": 3,
+      "ships": 8,
       "projectiles": 3,
-      "displayObjects": 668
+      "displayObjects": 648
     },
     {
       "tSec": 174,
-      "ships": 3,
-      "projectiles": 4,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 1,
+      "displayObjects": 650
     },
     {
       "tSec": 175,
-      "ships": 4,
-      "projectiles": 4,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 5,
+      "displayObjects": 650
     },
     {
       "tSec": 176,
-      "ships": 3,
-      "projectiles": 1,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 2,
+      "displayObjects": 650
     },
     {
       "tSec": 177,
-      "ships": 4,
-      "projectiles": 3,
-      "displayObjects": 668
+      "ships": 8,
+      "projectiles": 4,
+      "displayObjects": 650
     },
     {
       "tSec": 178,
-      "ships": 4,
+      "ships": 8,
       "projectiles": 4,
-      "displayObjects": 675
+      "displayObjects": 650
     },
     {
       "tSec": 179,
-      "ships": 4,
+      "ships": 8,
       "projectiles": 1,
-      "displayObjects": 675
+      "displayObjects": 650
     },
     {
       "tSec": 180,
@@ -1073,12 +1067,12 @@
   "cycles": [
     {
       "cycle": 1,
-      "heapMB": 7.36,
+      "heapMB": 7.65,
       "listeners": 188,
       "nodes": 325,
       "midPlay": {
-        "displayObjects": 587,
-        "textures": 7
+        "displayObjects": 572,
+        "textures": 8
       },
       "afterExit": {
         "displayObjects": 0,
@@ -1088,12 +1082,12 @@
     },
     {
       "cycle": 2,
-      "heapMB": 7.65,
-      "listeners": 194,
-      "nodes": 326,
+      "heapMB": 7.9,
+      "listeners": 188,
+      "nodes": 325,
       "midPlay": {
         "displayObjects": 585,
-        "textures": 7
+        "textures": 8
       },
       "afterExit": {
         "displayObjects": 0,
@@ -1103,12 +1097,12 @@
     },
     {
       "cycle": 3,
-      "heapMB": 7.89,
-      "listeners": 193,
-      "nodes": 326,
+      "heapMB": 8.14,
+      "listeners": 188,
+      "nodes": 325,
       "midPlay": {
-        "displayObjects": 601,
-        "textures": 7
+        "displayObjects": 598,
+        "textures": 8
       },
       "afterExit": {
         "displayObjects": 0,
@@ -1118,12 +1112,12 @@
     },
     {
       "cycle": 4,
-      "heapMB": 8.09,
-      "listeners": 193,
-      "nodes": 326,
+      "heapMB": 8.33,
+      "listeners": 188,
+      "nodes": 325,
       "midPlay": {
-        "displayObjects": 597,
-        "textures": 7
+        "displayObjects": 593,
+        "textures": 8
       },
       "afterExit": {
         "displayObjects": 0,
@@ -1133,12 +1127,12 @@
     },
     {
       "cycle": 5,
-      "heapMB": 8.31,
-      "listeners": 193,
-      "nodes": 326,
+      "heapMB": 8.55,
+      "listeners": 188,
+      "nodes": 330,
       "midPlay": {
-        "displayObjects": 589,
-        "textures": 7
+        "displayObjects": 611,
+        "textures": 8
       },
       "afterExit": {
         "displayObjects": 0,
@@ -1147,5 +1141,10 @@
       }
     }
   ],
-  "consoleErrors": []
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Failed to load resource: net::ERR_FAILED"
+  ]
 }
