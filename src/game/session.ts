@@ -9,7 +9,7 @@ import type {
 class GameSession implements GameSessionApi {
   readonly input = new GameInput(() => this.pause('manual'))
   readonly hud: HudStore
-  private readonly config = perfConfig(this.options.config)
+  private readonly config: CreateGameSessionOptions['config']
   private readonly sim: Simulation
   private readonly endListeners = new Set<(result: MatchResult) => void>()
   private status: MatchStatus = 'loading'
@@ -20,6 +20,7 @@ class GameSession implements GameSessionApi {
   private unbindTesting?: () => void
 
   constructor(private readonly options: CreateGameSessionOptions) {
+    this.config = perfConfig(options.config)
     this.sim = new Simulation(this.config, resolveSeed(options.seed))
     this.hud = new HudStore(this.readHud())
   }
