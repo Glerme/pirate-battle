@@ -58,10 +58,12 @@ function sendMatch(record: MatchRecord) {
   const attempt = Promise.resolve().then(async () => {
     try {
       enqueueMatch(record)
+      // Storage blocked/full: still send the in-memory record (it stays 'unpersisted' for manual retry on failure).
       const queued = pendingMatches().find((match) => match.matchId === matchId)
-      if (!queued) throw new DOMException('Could not persist the pending match')
-      const status = await registerMatch(queued)
-      localStorage.setItem(storageKey, JSON.stringify(pendingMatches().filter((match) => match.matchId !== matchId)))
+      const status = await registerMatch(queued ?? record)
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(pendingMatches().filter((match) => match.matchId !== matchId)))
+      } catch { /* server already has it; the idempotent PUT covers a stale entry */ }
       unpersisted.delete(matchId)
       failed.delete(matchId)
       return status
@@ -109,6 +111,8 @@ export function startMatchOutbox(client: QueryClient) {
   flush()
   return () => window.removeEventListener('online', flush)
 }
+
+export const usePendingMatchCount = () => useSyncExternalStore(subscribe, () => pendingMatches().length + unpersisted.size)
 
 export function useMatchRegistration(matchId: string) {
   const client = useQueryClient()

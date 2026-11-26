@@ -1,7 +1,9 @@
 import { useId, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SCENARIO_IDS, type ScenarioId } from '../api/contracts'
-import { useHistoryList, useNetworkLab, useRankingList } from '../app/integration'
+import type { ScenarioId } from '../api/contracts'
+import { usePendingMatchCount } from '../api/outbox'
+import { useHistoryQuery, useRankingQuery } from '../api/queries'
+import { useNetworkLab } from '../mocks'
 import { loadOptions, getPlayerId } from '../settings/storage'
 import { Button } from '../ui/Button'
 import { DataTable } from '../ui/DataTable'
@@ -9,6 +11,7 @@ import { Dialog } from '../ui/Dialog'
 import { END_REASON_LABEL, formatDate, formatDuration } from '../ui/format'
 import { img } from '../ui/img'
 import { Panel } from '../ui/Panel'
+import { toListState } from '../ui/listState'
 import { Tabs } from '../ui/Tabs'
 import { startPlay } from './nav'
 
@@ -23,7 +26,7 @@ function RankingPanel() {
   const playerId = getPlayerId()
   const [cfg, setCfg] = useState({ sessionTimeSec: options.sessionTimeSec, spawnIntervalSec: options.spawnIntervalSec })
   const [page, setPage] = useState(1)
-  const state = useRankingList({ ...cfg, page })
+  const state = toListState(useRankingQuery({ ...cfg, page }))
   const sessionChoices = [...new Set([60, 90, 120, 150, 180, cfg.sessionTimeSec])].sort((a, b) => a - b)
   const change = (k: keyof typeof cfg, v: string) => {
     setCfg({ ...cfg, [k]: Number(v) })
@@ -66,7 +69,7 @@ function RankingPanel() {
 
 function HistoryPanel() {
   const [page, setPage] = useState(1)
-  const state = useHistoryList({ playerId: getPlayerId(), page })
+  const state = toListState(useHistoryQuery({ playerId: getPlayerId(), page }))
   return (
     <DataTable
       caption="Match history"
@@ -86,6 +89,7 @@ function HistoryPanel() {
 
 function NetworkLabDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const lab = useNetworkLab()
+  const pending = usePendingMatchCount()
   const titleId = useId()
   return (
     <Dialog open={open} onCancel={onClose} labelledBy={titleId}>
@@ -94,10 +98,10 @@ function NetworkLabDialog({ open, onClose }: { open: boolean; onClose: () => voi
       <label className="field">
         Scenario
         <select value={lab.scenario} onChange={(e) => lab.setScenario(e.target.value as ScenarioId)}>
-          {SCENARIO_IDS.map((id) => <option key={id} value={id}>{id}</option>)}
+          {lab.scenarios.map((id) => <option key={id} value={id}>{id}</option>)}
         </select>
       </label>
-      <p role="status">Pending matches: {lab.pendingCount}</p>
+      <p role="status">Pending matches: {pending}</p>
       <div className="actions">
         <Button variant="secondary" onClick={lab.resetMockData}>Reset mock data</Button>
         <Button onClick={onClose}>Close</Button>

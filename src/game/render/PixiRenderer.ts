@@ -86,6 +86,7 @@ export class PixiRenderer implements Renderer {
       return
     }
     this.app = app
+    ;(globalThis as { __PIXI_APP__?: Application }).__PIXI_APP__ = app // standard Pixi devtools hook; also read by scripts/perf.ts
     app.stage.addChild(this.world)
     this.ring = app.renderer.generateTexture(new Graphics().circle(0, 0, 30).stroke({ width: 4, color: 0xffffff }))
     this.puff = app.renderer.generateTexture(new Graphics().circle(0, 0, 14).fill({ color: 0xd8d8d8 }))
@@ -142,6 +143,7 @@ export class PixiRenderer implements Renderer {
     sounds.stopAmbience()
     // children only: atlas textures are shared and stay in the Assets cache
     this.app.destroy(true, { children: true })
+    if ((globalThis as { __PIXI_APP__?: Application }).__PIXI_APP__ === this.app) delete (globalThis as { __PIXI_APP__?: Application }).__PIXI_APP__
     this.app = undefined
     this.shipPos.clear(); this.ships.clear(); this.freeShips = []; this.projs.clear(); this.freeProjs = []
     this.activeFx = []; this.freeFx = []
@@ -270,7 +272,8 @@ export class PixiRenderer implements Renderer {
         const p = this.shipPos.get(e.shipId)
         if (!p) return
         const a = p.r + (e.weapon === 'left' ? -Math.PI / 2 : e.weapon === 'right' ? Math.PI / 2 : 0)
-        const mx = p.x + Math.sin(a) * 42, my = p.y - Math.cos(a) * 42
+        const reach = e.weapon === 'left' || e.weapon === 'right' ? 42 : 56 // bow vs. broadside
+        const mx = p.x + Math.sin(a) * reach, my = p.y - Math.cos(a) * reach
         this.spawnFx(['explosion_3'], mx, my, 130, 0.4, 0.8)
         if (this.puff) this.spawnFx([this.puff], mx + Math.sin(a) * 14, my - Math.cos(a) * 14, 550, 0.6, 2.2) // muzzle smoke
         break

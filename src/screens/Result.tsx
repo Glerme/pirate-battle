@@ -1,5 +1,5 @@
 import { useNavigate, Navigate } from 'react-router-dom'
-import { useRegistration } from '../app/integration'
+import { useMatchRegistration } from '../api/outbox'
 import { loadLastResult } from '../settings/storage'
 import { Button } from '../ui/Button'
 import { END_REASON_LABEL, formatDuration } from '../ui/format'
@@ -18,7 +18,7 @@ const REG_TEXT: Record<RegistrationState['status'], string> = {
 
 function ResultView({ result }: { result: MatchResult }) {
   const navigate = useNavigate()
-  const reg = useRegistration(result)
+  const reg = useMatchRegistration(result.matchId)
   return (
     <main className="screen">
       <Panel className="menu result" aria-labelledby="res-h">

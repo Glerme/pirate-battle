@@ -126,7 +126,8 @@ export class Simulation {
     const ship: Ship = {
       id: this.nextId++, kind, ...position, rotation, hp: maxHp, maxHp, alive: true, speed: 0,
       prevX: position.x, prevY: position.y, prevRotation: rotation,
-      readyAt: { front: 0, left: 0, right: 0, enemy: 0 },
+      // Enemies start on cooldown so a shooter cannot fire on its first tick after spawning.
+      readyAt: { front: 0, left: 0, right: 0, enemy: kind === 'player' ? 0 : this.simTimeMs + this.config.weapons.enemy.cooldownMs },
     }
     this.ships.push(ship)
     return ship

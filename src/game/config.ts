@@ -11,7 +11,7 @@ export interface ShipConfig {
   turnRate: number
   /** Collision circle radius (px). */
   radius: number
-  /** Ship color 0..5 (ship_N = colorIndex*4 + damageState + 1; renderer maps exact ids). */
+  /** Ship color 0..5 (atlas rows are 6 colors per damage level: ship_1-6 full HP … ship_19-24 wreck, so id = damageLevel*6 + colorIndex + 1; renderer maps exact ids). */
   colorIndex: number
 }
 

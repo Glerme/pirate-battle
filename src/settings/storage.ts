@@ -5,7 +5,6 @@ const KEYS = {
   options: 'pirate.options.v1',
   playerId: 'pirate.playerId.v1',
   lastResult: 'pirate.lastResult.v1',
-  muted: 'pirate.muted.v1',
 } as const
 
 // localStorage can throw (private mode, blocked storage); every access degrades to "no data".
@@ -92,6 +91,3 @@ export function loadLastResult(): MatchResult | null {
   return stored?.v === 1 && isMatchResult(stored.data) ? stored.data : null
 }
 export const saveLastResult = (r: MatchResult) => write(KEYS.lastResult, { v: 1, data: r })
-
-export const loadMuted = () => read(KEYS.muted) === true
-export const saveMuted = (m: boolean) => write(KEYS.muted, m)

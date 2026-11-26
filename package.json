@@ -11,7 +11,9 @@
     "typecheck": "tsc -b --noEmit",
     "test:e2e": "playwright test",
     "test:e2e:update": "playwright test --update-snapshots",
-    "perf": "echo \"perf: not implemented yet (T5)\"",
+    "test:sim": "tsx src/game/sim/self-check.mjs",
+    "test:mocks": "tsx src/mocks/check.mjs",
+    "perf": "tsx scripts/perf.ts",
     "atlas": "tsx scripts/convert-atlas.ts"
   },
   "dependencies": {

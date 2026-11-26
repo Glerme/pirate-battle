@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useId, useMemo, useState, useSyncExternalStore } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { GameCanvas } from '../app/integration'
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import { enqueueMatch } from '../api/outbox'
+import type { MatchRecord } from '../api/contracts'
 import { createMatchConfig } from '../game/config'
-import type { AssetLoadProgress, GameSessionApi, HudSnapshot } from '../game/types'
-import { loadMuted, loadOptions, saveLastResult, saveMuted } from '../settings/storage'
+import { audio } from '../game/audio'
+import { GameCanvas } from '../game/GameCanvas'
+import type { AssetLoadProgress, GameSessionApi, HudSnapshot, MatchResult } from '../game/types'
+import { getPlayerId, loadOptions, saveLastResult } from '../settings/storage'
 import { Button } from '../ui/Button'
 import { Dialog } from '../ui/Dialog'
 import { formatClock } from '../ui/format'
@@ -61,33 +64,41 @@ function MuteIcon({ muted }: { muted: boolean }) {
   )
 }
 
+function toRecord(r: MatchResult): MatchRecord {
+  return { ...r, playerId: getPlayerId(), playerName: loadOptions().captainName }
+}
+
 export function Play() {
   const navigate = useNavigate()
   const titleId = useId()
   // Snapshot of the options at match start; later edits only affect new matches.
   const config = useMemo(() => createMatchConfig(loadOptions()), [])
+  const [params] = useSearchParams()
+  const [seed] = useState(() => {
+    const q = params.get('seed')
+    return q?.trim() && Number.isFinite(Number(q)) ? Number(q) : Math.floor(Math.random() * 2 ** 32)
+  })
   const [session, setSession] = useState<GameSessionApi | null>(null)
-  const [load, setLoad] = useState<AssetLoadProgress>({ progress: 0, status: 'loading' })
-  const [attempt, setAttempt] = useState(0)
-  const [muted, setMuted] = useState(loadMuted)
+  const [load, setLoad] = useState<AssetLoadProgress & { retry?: () => void }>({ progress: 0, status: 'loading' })
+  const muted = useSyncExternalStore(audio.subscribe, audio.isMuted)
   const hud = useHud(session)
   const message = useAnnouncer(hud)
   const portrait = useMediaQuery('(orientation: portrait) and (pointer: coarse)')
   const touch = useMediaQuery('(pointer: coarse)')
 
   // Stable identity: GameCanvas effects depend on these.
-  const onSession = useCallback((s: GameSessionApi) => {
+  const onSession = useCallback((s: GameSessionApi | null) => {
     setSession(s)
-    s.onEnd((r) => {
+    s?.onEnd((r) => {
+      const record = toRecord(r)
       saveLastResult(r)
+      enqueueMatch(record)
       navigate('/result', { replace: true })
     })
   }, [navigate])
-  const onLoadProgress = useCallback((p: AssetLoadProgress) => setLoad(p), [])
   const retry = () => {
     setLoad({ progress: 0, status: 'loading' })
-    setSession(null)
-    setAttempt((n) => n + 1)
+    load.retry?.()
   }
   useEffect(() => {
     if (portrait && hud.status === 'running') session?.pause('orientation')
@@ -99,7 +110,7 @@ export function Play() {
   return (
     <main className="play" aria-label="Pirate Battle match">
       <div className="stage">
-        <GameCanvas key={attempt} config={config} onSession={onSession} onLoadProgress={onLoadProgress} />
+        <GameCanvas config={config} seed={seed} onSession={onSession} onLoadState={setLoad} />
       </div>
 
       {load.status === 'loading' && (
@@ -123,10 +134,7 @@ export function Play() {
         <RoundButton
           aria-label={muted ? 'Unmute sound' : 'Mute sound'}
           aria-pressed={muted}
-          onClick={() => {
-            saveMuted(!muted)
-            setMuted(!muted)
-          }}
+          onClick={() => audio.setMuted(!muted)}
         >
           <MuteIcon muted={muted} />
         </RoundButton>
