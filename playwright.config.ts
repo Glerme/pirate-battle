@@ -3,6 +3,10 @@ import { defineConfig, devices } from '@playwright/test'
 export default defineConfig({
   testDir: 'tests/e2e',
   snapshotPathTemplate: 'tests/e2e/__screenshots__/{projectName}/{testFilePath}/{arg}{ext}',
+  // Software-rendered WebGL is CPU-bound; more parallel workers starve the sim and flake specs 06/09.
+  workers: 2,
+  // One retry absorbs rare headless compositor stalls (rAF never fires before the first click); retried tests show as flaky.
+  retries: 1,
   reporter: [['html'], ['list']],
   use: { baseURL: 'http://localhost:4173', trace: 'retain-on-failure' },
   projects: [

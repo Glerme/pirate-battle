@@ -76,6 +76,8 @@ export const DEFAULT_GAME_CONFIG: GameConfig = {
 export const OPTION_LIMITS = {
   sessionTimeSec: { min: 60, max: 180, default: 120 },
   spawnIntervalSec: { min: 1, max: 15, default: 4 },
+  /** Touch-control opacity, in percent. */
+  controlsOpacity: { min: 10, max: 100, default: 60 },
 } as const
 
 export const CAPTAIN_NAME_LIMITS = { minLength: 2, maxLength: 16 } as const
@@ -84,6 +86,7 @@ export interface UserOptions {
   sessionTimeSec: number
   spawnIntervalSec: number
   captainName: string
+  controlsOpacity: number
 }
 
 export type DeepReadonly<T> = { readonly [K in keyof T]: T[K] extends object ? DeepReadonly<T[K]> : T[K] }

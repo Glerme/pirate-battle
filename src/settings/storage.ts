@@ -28,6 +28,7 @@ export const DEFAULT_OPTIONS: UserOptions = {
   sessionTimeSec: OPTION_LIMITS.sessionTimeSec.default,
   spawnIntervalSec: OPTION_LIMITS.spawnIntervalSec.default,
   captainName: 'Captain',
+  controlsOpacity: OPTION_LIMITS.controlsOpacity.default,
 }
 
 export type OptionsDraft = Record<keyof UserOptions, string>
@@ -44,6 +45,7 @@ export function validateOptions(d: OptionsDraft): OptionsErrors {
   const errors: OptionsErrors = {
     sessionTimeSec: rangeError(d.sessionTimeSec, OPTION_LIMITS.sessionTimeSec, 'seconds'),
     spawnIntervalSec: rangeError(d.spawnIntervalSec, OPTION_LIMITS.spawnIntervalSec, 'seconds'),
+    controlsOpacity: rangeError(d.controlsOpacity, OPTION_LIMITS.controlsOpacity, 'percent'),
     captainName: name.length < minLength || name.length > maxLength ? `Use ${minLength} to ${maxLength} characters.` : undefined,
   }
   return Object.fromEntries(Object.entries(errors).filter(([, v]) => v)) as OptionsErrors
@@ -53,6 +55,7 @@ export const toDraft = (o: UserOptions): OptionsDraft => ({
   sessionTimeSec: String(o.sessionTimeSec),
   spawnIntervalSec: String(o.spawnIntervalSec),
   captainName: o.captainName,
+  controlsOpacity: String(o.controlsOpacity),
 })
 
 export function loadOptions(): UserOptions {
@@ -61,7 +64,7 @@ export function loadOptions(): UserOptions {
   const candidate = { ...DEFAULT_OPTIONS, ...d }
   // Corrupt or out-of-range data falls back to defaults as a whole.
   if (!d || Object.keys(validateOptions(toDraft(candidate as UserOptions))).length) return { ...DEFAULT_OPTIONS }
-  return { sessionTimeSec: Number(candidate.sessionTimeSec), spawnIntervalSec: Number(candidate.spawnIntervalSec), captainName: String(candidate.captainName).trim() }
+  return { sessionTimeSec: Number(candidate.sessionTimeSec), spawnIntervalSec: Number(candidate.spawnIntervalSec), captainName: String(candidate.captainName).trim(), controlsOpacity: Number(candidate.controlsOpacity) }
 }
 
 export function saveOptions(o: UserOptions) {

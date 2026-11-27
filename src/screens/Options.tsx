@@ -65,13 +65,27 @@ export function Options() {
           onSubmit={(e) => {
             e.preventDefault()
             if (invalid) return
-            saveOptions({ sessionTimeSec: Number(draft.sessionTimeSec), spawnIntervalSec: Number(draft.spawnIntervalSec), captainName: draft.captainName })
+            saveOptions({ sessionTimeSec: Number(draft.sessionTimeSec), spawnIntervalSec: Number(draft.spawnIntervalSec), captainName: draft.captainName, controlsOpacity: Number(draft.controlsOpacity) })
             setSaved(true)
           }}
         >
           <Field name="sessionTimeSec" unit="session seconds" label="Game session time" numeric={st} value={draft.sessionTimeSec} error={errors.sessionTimeSec} onChange={set('sessionTimeSec')} hint={`${st.min}–${st.max} seconds`} />
           <Field name="spawnIntervalSec" unit="spawn seconds" label="Enemy spawn time" numeric={sp} value={draft.spawnIntervalSec} error={errors.spawnIntervalSec} onChange={set('spawnIntervalSec')} hint={`${sp.min}–${sp.max} seconds between enemies`} />
           <Field name="captainName" label="Captain name" value={draft.captainName} error={errors.captainName} onChange={set('captainName')} hint={`${CAPTAIN_NAME_LIMITS.minLength}–${CAPTAIN_NAME_LIMITS.maxLength} characters`} />
+          <div className="field">
+            <label htmlFor="opt-opacity">Touch controls opacity</label>
+            <input
+              id="opt-opacity"
+              type="range"
+              min={OPTION_LIMITS.controlsOpacity.min}
+              max={OPTION_LIMITS.controlsOpacity.max}
+              step={5}
+              value={draft.controlsOpacity}
+              onChange={(e) => set('controlsOpacity')(e.target.value)}
+              aria-valuetext={`${draft.controlsOpacity}%`}
+            />
+            <small>{draft.controlsOpacity}% — on-screen buttons on touch devices</small>
+          </div>
           <p role="status" className="saved">{saved ? 'Options saved.' : ''}</p>
           <div className="stack">
             <Button type="submit" disabled={invalid}>Save</Button>
