@@ -91,6 +91,7 @@ select, input[type='text'], input:not([type]) {
   background: #0e1626; color: var(--ink); border: 2px solid #6b7c99; border-radius: 6px; padding: 8px 10px; font: inherit; min-height: 40px;
 }
 input[aria-invalid='true'] { border-color: var(--err); }
+input[type='range'] { width: 100%; accent-color: #f2b13c; min-height: 32px; }
 .table-scroll { overflow-x: auto; }
 table { width: 100%; border-collapse: separate; border-spacing: 0 4px; font-size: .9rem; }
 th { text-align: left; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-dim); padding: 4px 10px; }
@@ -146,23 +147,19 @@ tr.me td { background: rgba(120, 100, 40, .55); }
   background: var(--counter) center / 100% 100% no-repeat; font-variant-numeric: tabular-nums;
 }
 .counter img { width: 28px; height: 28px; }
-.pad-group { position: absolute; bottom: max(12px, env(safe-area-inset-bottom)); display: flex; gap: 12px; align-items: flex-end; z-index: 2; }
-.pad-left { left: max(12px, env(safe-area-inset-left)); }
-.pad-right { right: max(12px, env(safe-area-inset-right)); }
-.pad { width: 72px; height: 72px; touch-action: none; }
-.pad img { width: 36px; height: 36px; }
-.pad-group .pad:nth-child(2) { margin-bottom: 36px; }
-/* Touch: controls get their own side columns and the arena is fitted between them, so no button covers the play area. */
-@media (pointer: coarse) {
-  .play { --pad-col: calc(88px + env(safe-area-inset-left)); background: #0b2236; }
-  .stage { left: var(--pad-col); right: var(--pad-col); }
-  .pad-group { flex-direction: column; align-items: center; gap: 10px; width: 64px; }
-  .pad-left { left: calc((88px - 64px) / 2 + env(safe-area-inset-left)); }
-  .pad-right { right: calc((88px - 64px) / 2 + env(safe-area-inset-right)); }
-  .pad { width: 64px; height: 64px; }
-  .pad img { width: 32px; height: 32px; }
-  .pad-group .pad:nth-child(2) { margin-bottom: 0; order: -1; } /* forward / front fire on top */
+/* Gamepad-style clusters over the arena: one button on top, two below (like a d-pad / face buttons). */
+.pad-group {
+  --pad: 72px; position: absolute; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 2;
+  display: grid; grid-template-columns: repeat(3, var(--pad)); grid-template-rows: repeat(2, var(--pad)); gap: 0 4px;
 }
+.pad-group .pad:first-child { grid-column: 2; grid-row: 1; }
+.pad-group .pad:nth-child(2) { grid-column: 1; grid-row: 2; }
+.pad-group .pad:nth-child(3) { grid-column: 3; grid-row: 2; }
+.pad-left { left: max(20px, env(safe-area-inset-left)); }
+.pad-right { right: max(20px, env(safe-area-inset-right)); }
+.pad { width: var(--pad); height: var(--pad); touch-action: none; }
+.pad img { width: 50%; height: 50%; }
+@media (pointer: coarse) and (min-height: 400px) { .pad-group { --pad: 84px; } }
 .rotate { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: rgba(5, 12, 25, .92); }
 
 @media (max-height: 520px) {

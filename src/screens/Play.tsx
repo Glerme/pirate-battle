@@ -141,7 +141,7 @@ export function Play() {
         <RoundButton icon="icon_pause" aria-label="Pause" disabled={hud.status !== 'running'} onClick={() => session?.pause('manual')} />
       </header>
 
-      {touch && session && hud.status === 'running' && <TouchControls input={session.input} />}
+      {touch && session && hud.status === 'running' && <TouchControls input={session.input} opacity={loadOptions().controlsOpacity / 100} />}
       <LiveRegion message={message} />
 
       <Dialog open={paused && !portrait} onCancel={() => session?.resume()} labelledBy={titleId}>
