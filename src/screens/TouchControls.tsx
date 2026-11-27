@@ -1,4 +1,5 @@
-import { useRef, type PointerEvent } from 'react'
+import { useId, useRef, type PointerEvent } from 'react'
+import { OPTION_LIMITS } from '../game/config'
 import type { InputAction, InputSink } from '../game/types'
 import { img } from '../ui/img'
 
@@ -51,5 +52,18 @@ export function TouchControls({ input, opacity }: { input: InputSink; opacity: n
         {RIGHT.map(([a, i, l]) => <PadButton key={a} input={input} action={a} icon={i} label={l} />)}
       </div>
     </>
+  )
+}
+
+/** Opacity setting (percent), shared by Options and the pause menu. */
+export function OpacitySlider({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  const id = useId()
+  const { min, max } = OPTION_LIMITS.controlsOpacity
+  return (
+    <div className="field">
+      <label htmlFor={id}>Touch controls opacity</label>
+      <input id={id} type="range" min={min} max={max} step={5} value={value} onChange={(e) => onChange(Number(e.target.value))} aria-valuetext={`${value}%`} />
+      <small>{value}%</small>
+    </div>
   )
 }

@@ -6,7 +6,7 @@ import { createMatchConfig } from '../game/config'
 import { audio } from '../game/audio'
 import { GameCanvas } from '../game/GameCanvas'
 import type { AssetLoadProgress, GameSessionApi, HudSnapshot, MatchResult } from '../game/types'
-import { getPlayerId, loadOptions, saveLastResult } from '../settings/storage'
+import { getPlayerId, loadOptions, saveLastResult, saveOptions } from '../settings/storage'
 import { Button } from '../ui/Button'
 import { Dialog } from '../ui/Dialog'
 import { formatClock } from '../ui/format'
@@ -15,7 +15,7 @@ import { LiveRegion } from '../ui/LiveRegion'
 import { Panel } from '../ui/Panel'
 import { RoundButton } from '../ui/RoundButton'
 import { playGuard } from './nav'
-import { TouchControls } from './TouchControls'
+import { OpacitySlider, TouchControls } from './TouchControls'
 import { useMediaQuery } from './useMediaQuery'
 
 const IDLE: HudSnapshot = { status: 'loading', score: 0, hp: 0, maxHp: 0, remainingSec: 0 }
@@ -85,6 +85,11 @@ export function Play() {
   const message = useAnnouncer(hud)
   const portrait = useMediaQuery('(orientation: portrait) and (pointer: coarse)')
   const touch = useMediaQuery('(pointer: coarse)')
+  const [opacity, setOpacity] = useState(() => loadOptions().controlsOpacity)
+  const changeOpacity = (v: number) => {
+    setOpacity(v)
+    saveOptions({ ...loadOptions(), controlsOpacity: v })
+  }
 
   // Stable identity: GameCanvas effects depend on these.
   const onSession = useCallback((s: GameSessionApi | null) => {
@@ -141,12 +146,14 @@ export function Play() {
         <RoundButton icon="icon_pause" aria-label="Pause" disabled={hud.status !== 'running'} onClick={() => session?.pause('manual')} />
       </header>
 
-      {touch && session && hud.status === 'running' && <TouchControls input={session.input} opacity={loadOptions().controlsOpacity / 100} />}
+      {/* Also shown under the pause menu so opacity changes preview live; the modal keeps them inert. */}
+      {touch && session && (hud.status === 'running' || paused) && <TouchControls input={session.input} opacity={opacity / 100} />}
       <LiveRegion message={message} />
 
       <Dialog open={paused && !portrait} onCancel={() => session?.resume()} labelledBy={titleId}>
         <h2 id={titleId} className="heading">Paused</h2>
-        <div className="stack">
+        {touch && <OpacitySlider value={opacity} onChange={changeOpacity} />}
+        <div className="actions">
           <Button onClick={() => session?.resume()}>Resume</Button>
           <Button variant="secondary" onClick={() => navigate('/')}>Main Menu</Button>
         </div>
