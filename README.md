@@ -5,7 +5,7 @@
 Top-down pirate naval combat in React + Pixi.js. The challenge statement is in [docs/CHALLENGE.md](docs/CHALLENGE.md), the implementation plan in [docs/PLAN.md](docs/PLAN.md).
 Design notes: [ARCHITECTURE.md](ARCHITECTURE.md). Asset origin: [ASSETS_LICENSE.md](ASSETS_LICENSE.md). Performance: [docs/perf/report.md](docs/perf/report.md).
 
-**Live demo:** https://pirate-battle-lyart-iota.vercel.app/ (Vercel, Vite preset; `vercel.json` rewrites SPA routes; the MSW mocks run in production)
+**Live demo:** https://pirate-battle-glerme.vercel.app/ (Vercel, Vite preset; `vercel.json` rewrites SPA routes; the MSW mocks run in production)
 
 ## Setup
 

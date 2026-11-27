@@ -5,7 +5,7 @@
 Combate naval pirata com visão superior em React + Pixi.js. O enunciado do desafio está em [docs/CHALLENGE.md](docs/CHALLENGE.md) e o plano de implementação em [docs/PLAN.md](docs/PLAN.md).
 Decisões de arquitetura: [ARCHITECTURE.md](ARCHITECTURE.md). Origem dos assets: [ASSETS_LICENSE.md](ASSETS_LICENSE.md). Performance: [docs/perf/report.md](docs/perf/report.md).
 
-**Demo publicada:** https://pirate-battle-lyart-iota.vercel.app/ (Vercel, preset Vite; o `vercel.json` reescreve as rotas da SPA; os mocks do MSW rodam em produção)
+**Demo publicada:** https://pirate-battle-glerme.vercel.app/ (Vercel, preset Vite; o `vercel.json` reescreve as rotas da SPA; os mocks do MSW rodam em produção)
 
 ## Instalação
 
