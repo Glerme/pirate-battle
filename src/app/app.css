@@ -169,5 +169,6 @@ tr.me td { background: rgba(120, 100, 40, .55); }
   .heading { font-size: 1.3rem; }
   .big-score { font-size: 2.5rem; }
   .btn { min-height: 56px; }
+  .dialog { max-width: min(560px, 92vw); gap: 10px; }
 }
 @media (prefers-reduced-motion: no-preference) { .btn, .round { transition: filter .1s; } }
